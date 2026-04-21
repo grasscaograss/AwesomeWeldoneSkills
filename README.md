@@ -1,92 +1,102 @@
 # AwesomeWeldoneSkills
 
+焊接团队共享的 Claude Code Skills 仓库，收集项目相关的 AI 辅助能力，方便团队成员复用。
 
+## 仓库用途
 
-## Getting started
+本仓库包含 Weldone 项目（及同类焊接项目）常用的 Claude Code Skills，涵盖：
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- **构建与运行**：`build-publish-run` — 项目构建、发布、运行工作流
+- **粗定位补偿**：`coarse-compensation-fit` — 粗定位点云误差分析与参数拟合
+- **提交规范**：`commit` — 按项目规范使用中文消息提交变更
+- **飞书文档**：`create-weld-doc` — 在飞书"焊接"云文档文件夹中创建新文档
+- **飞书通知**：`feishu-webhook` — 通过飞书 webhook 发送文本消息
+- **分支合并**：`git-branch-merge` — 大分支差异合并的结构化方法论
+- **状态机参考**：`modelbase-fsm` — ModelBase 状态机完整架构参考
+- **状态机同步**：`modelbase-fsm-update` — 同步最新状态机源码到 skill
+- **OPSX 索引**：`opsx-reindex` — OpenSpec 变更索引重建
+- **OPSX 搜索**：`opsx-search` — OpenSpec 文档搜索与导航
+- **Robim.Data 探索**：`robim-data-explorer` — 本地 Robim.Data 源码定义查询
+- **坐标转换**：`robot-to-world` / `world-to-robot` — 双机焊接机器人/世界坐标系转换
+- **Skill 创建**：`skill-creator` — 创建新 skill 的指南
+- **3D 开发**：`three-blazor-dev` — Three.js + Blazor 3D 场景开发指导
+- **URDF 定位**：`weldone-current-urdf` — 根据项目配置自动定位当前 URDF 文件
+- **MapMatrix 知识**：`weldone-mapmatrix-domain-knowledge` — MapMatrix 扫描校准领域知识库
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## 手动配置方法
 
-## Add your files
+### 方式一：直接复制（推荐）
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+将本仓库 clone 到任意位置，把需要的 skill 复制到你的项目 `.claude/skills/` 目录下：
 
+```powershell
+# 1. 克隆仓库（已有则跳过）
+git clone http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
+
+# 2. 复制需要的 skills 到项目目录
+cd awesomeweldoneskills
+copy-item -r -path "commit","build-publish-run" -destination "D:\weldone\.claude\skills\"
+
+# 3. 重启 Claude Code 或等待自动加载
 ```
-cd existing_repo
-git remote add origin http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
-git branch -M master
-git push -uf origin master
+
+### 方式二：目录联接（Windows Junction）
+
+如果希望一处更新、所有项目自动生效，使用 junction：
+
+```powershell
+# 在需要使用的项目目录下执行
+cmd /c mklink /J "D:\weldone\.claude\skills\commit" "D:\awesomeweldoneskills\commit"
+cmd /c mklink /J "D:\weldone\.claude\skills\modelbase-fsm" "D:\awesomeweldoneskills\modelbase-fsm"
+# 按需为其他 skill 创建 junction
 ```
 
-## Integrate with your tools
+**注意**：Junction 要求两个目录都在同一台机器上，且 awesome 仓库更新后 Claude Code 会自动识别（无需手动复制）。
 
-- [ ] [Set up project integrations](http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills/-/settings/integrations)
+### 方式三：Git 子模块
 
-## Collaborate with your team
+在项目中使用 git submodule 引入：
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```bash
+cd D:\weldone
+git submodule add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git .claude/skills-shared
+```
 
-## Test and Deploy
+然后为需要的 skill 创建 junction 指向子模块目录。
 
-Use the built-in continuous integration in GitLab.
+## 更新 Skills
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```bash
+cd D:\awesomeweldoneskills
+git pull origin master
+```
 
-***
+如果使用 junction 方式，更新后 Claude Code 会自动加载最新内容。
 
-# Editing this README
+## 添加新 Skill
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+1. 在本仓库新建 skill 目录（目录名即 skill 名）
+2. 目录内添加 `SKILL.md`，遵循 skill 编写规范
+3. 提交并推送：`git commit -m "feat(skill): 添加 xxx skill"`
+4. 团队其他成员 pull 后即可使用
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## 发给 AI 的 Prompt
 
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+> 以下是焊接团队共享的 Claude Code Skills 列表，来源于 `awesomeweldoneskills` 仓库。当我在项目（Weldone）中工作时，这些 skills 已经配置在 `.claude/skills/` 目录下。
+>
+> 你可以使用以下 skills：
+> - `/commit` — 按项目规范用中文提交代码变更
+> - `/build-publish-run` — 构建、发布、运行项目
+> - `/create-weld-doc` — 创建飞书焊接文档
+> - `/feishu-webhook` — 发送飞书通知
+> - `/git-branch-merge` — 大分支差异合并
+> - `/modelbase-fsm` 或 `/modelbase-fsm-update` — 状态机相关
+> - `/opsx-reindex` / `/opsx-search` — OpenSpec 文档管理
+> - `/robot-to-world` / `/world-to-robot` — 坐标系转换
+> - `/coarse-compensation-fit` — 粗定位补偿
+> - `/weldone-current-urdf` — 查找当前项目 URDF
+> - `/weldone-mapmatrix-domain-knowledge` — MapMatrix 领域知识
+> - `/robim-data-explorer` — 查询 Robim.Data 源码
+> - `/three-blazor-dev` — Three.js + Blazor 3D 开发
+>
+> 当我调用这些 skills 时，请按照各自 SKILL.md 中的定义执行。如果有新需求需要创建 skill，请先参考 `/skill-creator` 的指南。

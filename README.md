@@ -22,23 +22,16 @@ Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以
 
 ### Claude Code — GitLab 内网源
 
-如果无法访问 GitHub，可使用 GitLab 内网地址：
+如果无法访问 GitHub，可使用 GitLab 内网地址（SSH 方式，推荐）：
 
 ```
-/plugin marketplace add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
+/plugin marketplace add git@gitlab.roboticplus.com:robimweld/awesomeweldoneskills.git
 ```
 
-> 如果遇到认证问题（GitLab 在非标准端口 2022），可以用 SSH 方式：
-> 在 `~/.claude/plugins/known_marketplaces.json` 中添加：
-> ```json
-> "awesomeweldoneskills": {
->   "source": {
->     "source": "git",
->     "url": "git@gitlab.roboticplus.com:robimweld/awesomeweldoneskills.git"
->   }
-> }
+> 如果 SSH 不可用，也可以尝试 HTTPS：
 > ```
-> 或在项目的 `.claude/settings.json` 中配置 `extraKnownMarketplaces`（见下方"团队自动发现"）。
+> /plugin marketplace add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
+> ```
 
 注册成功后，可以浏览所有可用 skills：
 

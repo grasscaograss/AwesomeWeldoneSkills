@@ -178,6 +178,20 @@
       "category": "robotics",
       "version": "1.0.0",
       "author": "weldone-team"
+    },
+    {
+      "name": "DDD-review",
+      "description": "Martin Fowler 代码审查视角：代码异味识别、重构手法建议、可读性评估",
+      "category": "code-review",
+      "version": "1.0.0",
+      "author": "community"
+    },
+    {
+      "name": "code-simplify",
+      "description": "以减法为先的代码审查：识别过度设计、冗余代码、命名晦涩、注释失衡",
+      "category": "code-review",
+      "version": "0.0.2",
+      "author": "weldone"
     }
   ],
   "categories": {
@@ -190,6 +204,7 @@
     "frontend-3d": "3D 可视化与前端开发",
     "fsm-architecture": "ModelBase 状态机架构",
     "data": "数据探索与分析",
-    "meta": "Skill 创建与工具"
+    "meta": "Skill 创建与工具",
+    "code-review": "代码审查与重构"
   }
 }

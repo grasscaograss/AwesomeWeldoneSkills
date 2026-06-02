@@ -12,17 +12,44 @@ Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以
 
 ## 注册 Marketplace
 
-### Claude Code — GitHub 源（推荐）
+### CC-switch（推荐）
 
-在 Claude Code 中执行：
+[CC-switch](https://github.com/farion1231/cc-switch) 是一个 GUI 工具，支持 Claude Code、Codex、Gemini CLI、OpenCode 的统一技能管理。
+
+1. 打开 CC-switch，点击顶部 **Skills** 按钮
+2. 点击 **仓库管理** → **添加仓库**
+3. 填写：
+
+| 字段         | 值                     |
+| ------------ | ---------------------- |
+| Owner        | `grasscaograss`        |
+| Name         | `AwesomeWeldoneSkills` |
+| Branch       | `main`                 |
+| Subdirectory | （留空）               |
+
+4. 点击添加后回到 Skills 页面，点击 **刷新** 即可浏览和安装所有技能
+
+> CC-switch 还支持自动更新检测、批量更新、卸载备份恢复等功能，详见 [CC-switch 文档](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/zh/3-extensions/3.3-skills.md)。
+
+### Claude Code — 直接添加源
+
+如果不想使用 CC-switch，也可以在 Claude Code 中直接添加：
 
 ```
 /plugin marketplace add https://github.com/grasscaograss/AwesomeWeldoneSkills.git
 ```
 
-### Claude Code — GitLab 内网源
+注册成功后，可以浏览所有可用 skills：
 
-如果无法访问 GitHub，可使用 GitLab 内网地址（SSH 方式，推荐）：
+```
+/plugin marketplace list          # 查看已注册的 marketplace
+/plugin search <keyword>          # 搜索 skill
+/plugin install <skill-name>      # 安装单个 skill
+```
+
+### GitLab 内网源
+
+无法访问 GitHub 时，可在 Claude Code 中添加 GitLab 内网源（SSH 方式，推荐）：
 
 ```
 /plugin marketplace add git@gitlab.roboticplus.com:robimweld/awesomeweldoneskills.git
@@ -32,14 +59,6 @@ Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以
 > ```
 > /plugin marketplace add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
 > ```
-
-注册成功后，可以浏览所有可用 skills：
-
-```
-/plugin marketplace list          # 查看已注册的 marketplace
-/plugin search <keyword>          # 搜索 skill
-/plugin install <skill-name>      # 安装单个 skill
-```
 
 ### Codex
 

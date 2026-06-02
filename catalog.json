@@ -180,7 +180,7 @@
       "author": "weldone-team"
     },
     {
-      "name": "martin-fowler-review",
+      "name": "DDD-review",
       "description": "Martin Fowler 代码审查视角：代码异味识别、重构手法建议、可读性评估",
       "category": "code-review",
       "version": "1.0.0",

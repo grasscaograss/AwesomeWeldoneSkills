@@ -1,5 +1,5 @@
 ---
-name: martin-fowler-review
+name: DDD-review
 description: |
   Martin Fowler 代码审查视角 Skill。蒸馏自《Refactoring》《Patterns of Enterprise
   Application Architecture》《UML Distilled》、martinfowler.com 数百篇 bliki 文章、

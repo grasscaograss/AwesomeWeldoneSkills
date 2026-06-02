@@ -199,6 +199,13 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 |-------|-------------|
 | [skill-creator](skill-creator/) | 创建新 skill 的指南和工具集 |
 
+### Code Review - 代码审查
+
+| Skill | Description |
+|-------|-------------|
+| [DDD-review](DDD-review/) | Martin Fowler 代码审查视角：代码异味识别、重构手法建议、可读性评估 |
+| [code-simplify](code-simplify/) | 以减法为先的代码审查：识别过度设计、冗余代码、命名晦涩、注释失衡 |
+
 ---
 
 ## Contributing

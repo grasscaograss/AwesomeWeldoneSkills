@@ -7,6 +7,10 @@ description: >
   ParseWeldSeamGroups failure, or "single seam works but multiple fails").
   Covers dual-arm scan/weld transition planning, external axis pre-planning,
   and workpiece seam group parsing.
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # Weld Planning Debug Workflow

@@ -3,6 +3,10 @@ name: modelbase-fsm-update
 description: >
   重新读取 ModelBase 状态机源文件，将最新内容同步到 modelbase-fsm skill。
   当用户说"更新状态机 skill"、"同步 FSM skill"、"状态机有改动"时使用。
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # 更新 ModelBase FSM Skill

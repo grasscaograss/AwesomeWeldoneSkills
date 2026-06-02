@@ -1,0 +1,134 @@
+{
+  "name": "awesomeweldoneskills",
+  "owner": {
+    "name": "Weldone Team",
+    "email": "weldone@roboticplus.com"
+  },
+  "plugins": [
+    {
+      "name": "add-diag-logs",
+      "source": "./add-diag-logs",
+      "description": "自动在代码中注入诊断日志，辅助定位 bug"
+    },
+    {
+      "name": "build-publish-run",
+      "source": "./build-publish-run",
+      "description": "项目构建、发布和运行工作流"
+    },
+    {
+      "name": "coarse-compensation-fit",
+      "source": "./coarse-compensation-fit",
+      "description": "粗定位点云误差分析与补偿参数拟合"
+    },
+    {
+      "name": "commit",
+      "source": "./commit",
+      "description": "按照项目规范使用中文消息提交变更"
+    },
+    {
+      "name": "create-weld-doc",
+      "source": "./create-weld-doc",
+      "description": "在飞书焊接文件夹中创建云文档并发送通知"
+    },
+    {
+      "name": "feishu-webhook",
+      "source": "./feishu-webhook",
+      "description": "通过飞书 webhook 发送文本消息"
+    },
+    {
+      "name": "git-branch-merge",
+      "source": "./git-branch-merge",
+      "description": "合并差异较大的 Git 分支的结构化方法论"
+    },
+    {
+      "name": "gitlab-issue",
+      "source": "./gitlab-issue",
+      "description": "与开发人员协作创建 GitLab Issue"
+    },
+    {
+      "name": "gitlab-ops",
+      "source": "./gitlab-ops",
+      "description": "GitLab 项目操作：Issue / Label / MR / Milestone 管理"
+    },
+    {
+      "name": "modelbase-fsm",
+      "source": "./modelbase-fsm",
+      "description": "ModelBase 状态机的完整架构参考"
+    },
+    {
+      "name": "modelbase-fsm-update",
+      "source": "./modelbase-fsm-update",
+      "description": "从源文件同步更新 modelbase-fsm skill"
+    },
+    {
+      "name": "opsx-reindex",
+      "source": "./opsx-reindex",
+      "description": "重新生成 openspec/INDEX.md 索引文件"
+    },
+    {
+      "name": "opsx-search",
+      "source": "./opsx-search",
+      "description": "搜索和浏览 OpenSpec 文档"
+    },
+    {
+      "name": "parallel-feature",
+      "source": "./parallel-feature",
+      "description": "并行 Agent 开发工作流：契约 → 并行施工 → 集成验收"
+    },
+    {
+      "name": "robim-data-explorer",
+      "source": "./robim-data-explorer",
+      "description": "探索 Robim.Data 源码类型定义"
+    },
+    {
+      "name": "robot-to-world",
+      "source": "./robot-to-world",
+      "description": "机器人坐标到世界坐标的逆变换"
+    },
+    {
+      "name": "skill-creator",
+      "source": "./skill-creator",
+      "description": "创建新 skill 的指南和工具集"
+    },
+    {
+      "name": "three-blazor-dev",
+      "source": "./three-blazor-dev",
+      "description": "Three.js + Blazor 3D 场景开发指南"
+    },
+    {
+      "name": "weld-plan-debug",
+      "source": "./weld-plan-debug",
+      "description": "焊接规划失败调试工作流"
+    },
+    {
+      "name": "weld-seam-normal-vectors",
+      "source": "./weld-seam-normal-vectors",
+      "description": "焊缝法向量领域知识：坐标系构建、调用链、平焊缝校正"
+    },
+    {
+      "name": "weldone-current-urdf",
+      "source": "./weldone-current-urdf",
+      "description": "自动定位当前 Weldone 项目对应的 URDF 文件"
+    },
+    {
+      "name": "weldone-mapmatrix-domain-knowledge",
+      "source": "./weldone-mapmatrix-domain-knowledge",
+      "description": "MapMatrix 扫描校准模块领域知识"
+    },
+    {
+      "name": "weldone-transition-line-domain-knowledge",
+      "source": "./weldone-transition-line-domain-knowledge",
+      "description": "TransitionLine 过渡段统一模型领域知识"
+    },
+    {
+      "name": "weldone-wsg-merge-domain-knowledge",
+      "source": "./weldone-wsg-merge-domain-knowledge",
+      "description": "WeldSeamGroup 合并机制领域知识"
+    },
+    {
+      "name": "world-to-robot",
+      "source": "./world-to-robot",
+      "description": "世界坐标到机器人坐标的正向变换"
+    }
+  ]
+}

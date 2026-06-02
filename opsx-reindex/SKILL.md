@@ -1,6 +1,10 @@
 ---
-name: opsx:reindex
-description: Regenerate openspec/INDEX.md after specs or changes are modified. Use when: (1) a change has been archived and the index is stale; (2) new capabilities or specs were added; (3) user says "update index", "reindex openspec", "refresh INDEX.md", "index is out of date", "/opsx:reindex". Runs opsx:reindex/scripts/reindex.py to rebuild the capability index from current specs, active changes, and archived changes.
+name: opsx-reindex
+description: "Regenerate openspec/INDEX.md after specs or changes are modified. Use when: (1) a change has been archived and the index is stale; (2) new capabilities or specs were added; (3) user says \"update index\", \"reindex openspec\", \"refresh INDEX.md\", \"index is out of date\", \"/opsx-reindex\". Runs opsx-reindex/scripts/reindex.py to rebuild the capability index from current specs, active changes, and archived changes."
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # OpenSpec Reindex
@@ -18,7 +22,7 @@ Regenerate `openspec/INDEX.md` after specs or changes are modified.
 Execute the bundled script:
 
 ```bash
-python .agents/skills/opsx:reindex/scripts/reindex.py
+python .agents/skills/opsx-reindex/scripts/reindex.py
 ```
 
 ## What It Does

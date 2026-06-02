@@ -1,6 +1,12 @@
 ---
 name: feishu-webhook
 description: 通过飞书 webhook 发送文本消息。触发场景：(1) 用户要求发送消息到飞书，(2) 二次向用户确认发送内容，然后才能通过 webhook 推送通知，(3) 发送自动化提醒或告警到飞书群聊
+license: Apache-2.0
+allowed-tools: Write Bash
+compatibility: Requires PowerShell. Chinese encoding handled via UTF-8 file + PowerShell script.
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # 飞书 Webhook 消息发送

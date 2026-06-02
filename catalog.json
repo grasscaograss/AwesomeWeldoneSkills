@@ -1,0 +1,195 @@
+{
+  "name": "awesomeweldoneskills",
+  "description": "Weldone 焊接团队 Agent Skills marketplace",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "skills": [
+    {
+      "name": "add-diag-logs",
+      "description": "自动在代码中注入诊断日志，辅助定位 bug",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "build-publish-run",
+      "description": "项目构建、发布和运行工作流",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "coarse-compensation-fit",
+      "description": "粗定位点云误差分析与补偿参数拟合",
+      "category": "welding-domain",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "commit",
+      "description": "按照项目规范使用中文消息提交变更",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "create-weld-doc",
+      "description": "在飞书焊接文件夹中创建云文档并发送通知",
+      "category": "collaboration",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "feishu-webhook",
+      "description": "通过飞书 webhook 发送文本消息",
+      "category": "collaboration",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "git-branch-merge",
+      "description": "合并差异较大的 Git 分支的结构化方法论",
+      "category": "git-gitlab",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "gitlab-issue",
+      "description": "与开发人员协作创建 GitLab Issue",
+      "category": "git-gitlab",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "gitlab-ops",
+      "description": "GitLab 项目操作：Issue / Label / MR / Milestone 管理",
+      "category": "git-gitlab",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "modelbase-fsm",
+      "description": "ModelBase 状态机的完整架构参考",
+      "category": "fsm-architecture",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "modelbase-fsm-update",
+      "description": "从源文件同步更新 modelbase-fsm skill",
+      "category": "fsm-architecture",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "opsx-reindex",
+      "description": "重新生成 openspec/INDEX.md 索引文件",
+      "category": "openspec",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "opsx-search",
+      "description": "搜索和浏览 OpenSpec 文档",
+      "category": "openspec",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "parallel-feature",
+      "description": "并行 Agent 开发工作流：契约 → 并行施工 → 集成验收",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "robim-data-explorer",
+      "description": "探索 Robim.Data 源码类型定义",
+      "category": "data",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "robot-to-world",
+      "description": "机器人坐标到世界坐标的逆变换",
+      "category": "robotics",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "skill-creator",
+      "description": "创建新 skill 的指南和工具集",
+      "category": "meta",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "three-blazor-dev",
+      "description": "Three.js + Blazor 3D 场景开发指南",
+      "category": "frontend-3d",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "weld-seam-normal-vectors",
+      "description": "焊缝法向量领域知识：坐标系构建、调用链、平焊缝校正",
+      "category": "welding-domain",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "weldone-current-urdf",
+      "description": "自动定位当前 Weldone 项目对应的 URDF 文件",
+      "category": "robotics",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "weldone-mapmatrix-domain-knowledge",
+      "description": "MapMatrix 扫描校准模块领域知识",
+      "category": "welding-domain",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "weldone-transition-line-domain-knowledge",
+      "description": "TransitionLine 过渡段统一模型领域知识",
+      "category": "welding-domain",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "weldone-wsg-merge-domain-knowledge",
+      "description": "WeldSeamGroup 合并机制领域知识",
+      "category": "welding-domain",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "weld-plan-debug",
+      "description": "焊接规划失败调试工作流",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "world-to-robot",
+      "description": "世界坐标到机器人坐标的正向变换",
+      "category": "robotics",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    }
+  ],
+  "categories": {
+    "welding-domain": "焊接领域知识与工艺",
+    "robotics": "机器人坐标变换与 URDF",
+    "development-workflow": "代码开发与调试工作流",
+    "git-gitlab": "Git 分支管理与 GitLab 操作",
+    "openspec": "OpenSpec 文档工具",
+    "collaboration": "飞书与团队协作",
+    "frontend-3d": "3D 可视化与前端开发",
+    "fsm-architecture": "ModelBase 状态机架构",
+    "data": "数据探索与分析",
+    "meta": "Skill 创建与工具"
+  }
+}

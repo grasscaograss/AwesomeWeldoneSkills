@@ -1,6 +1,10 @@
 ---
 name: weldone-mapmatrix-domain-knowledge
 description: Weldone 项目 MapMatrix 扫描校准模块的领域知识库。涵盖 Calculator 策略矩阵、Break 端点处理、通长焊缝打断机制、peer 关联推算等核心概念。适用于分析 MapMatrix 相关代码、排查扫描校准问题、理解焊缝端点策略选择。
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # Weldone MapMatrix 领域知识

@@ -1,6 +1,12 @@
 ---
 name: build-publish-run
 description: 项目构建、发布和运行工作流。当用户请求编译(build/compile)、发布(publish/deploy)、运行(run/start/launch)项目,或询问如何构建、发布、运行项目时使用。支持完整的开发工作流:构建项目、发布构建产物、在 Windows 环境运行已发布的应用。
+license: Apache-2.0
+allowed-tools: Bash
+compatibility: Requires `just` command runner. Windows only for run commands.
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # 构建项目

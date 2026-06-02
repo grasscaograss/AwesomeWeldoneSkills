@@ -11,6 +11,11 @@ description: >
   (3) user needs to understand proto definitions in Robim.Data.Proto,
   (4) user references fields/properties whose types are in Robim.Data and the
   definition is not available through standard project references.
+license: Apache-2.0
+compatibility: Requires Robim.Data source clone at d:/robim_data.
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # Robim.Data Explorer

@@ -1,6 +1,10 @@
 ---
 name: world-to-robot
 description: 将双机焊接系统中世界坐标转换到机器人坐标系。输入世界坐标xyz、外部轴E1/E2、旋转轴ext3和臂别，输出机器人坐标。适用于：粗定位点云转换、路径规划坐标计算、离线编程目标点计算。
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # World → Robot 坐标正向变换

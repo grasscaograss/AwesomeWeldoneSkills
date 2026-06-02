@@ -1,6 +1,11 @@
 ---
 name: weldone-current-urdf
-description: 根据 Weldone roaming 配置自动定位当前项目对应的 URDF 文件并读取内容。适用于用户要求“先找当前项目对应的 urdf”“根据 ProjectConfig 找 urdf”“读取当前 DeviceEnv 里的 urdf”“看当前项目加载的是哪个 urdf”等场景。
+description: 根据 Weldone roaming 配置自动定位当前项目对应的 URDF 文件并读取内容。适用于用户要求”先找当前项目对应的 urdf””根据 ProjectConfig 找 urdf””读取当前 DeviceEnv 里的 urdf””看当前项目加载的是哪个 urdf”等场景。
+license: Apache-2.0
+compatibility: Windows only. Requires Weldone installed at default roaming path.
+metadata:
+  author: weldone-team
+  version: “1.0.0”
 ---
 
 # Weldone Current Urdf

@@ -1,6 +1,10 @@
 ---
 name: opsx-search
-description: Search and navigate OpenSpec documents in this project. Use when: (1) user asks about specs related to a topic, capability, or code file; (2) looking for which specs define a feature or requirement; (3) finding active or archived changes; (4) understanding the scope of a capability. Triggers: "find spec", "which spec covers", "search openspec", "related specs", "spec for X", "what specs exist for".
+description: "Search and navigate OpenSpec documents in this project. Use when: (1) user asks about specs related to a topic, capability, or code file; (2) looking for which specs define a feature or requirement; (3) finding active or archived changes; (4) understanding the scope of a capability. Triggers: \"find spec\", \"which spec covers\", \"search openspec\", \"related specs\", \"spec for X\", \"what specs exist for\"."
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # OpenSpec Search

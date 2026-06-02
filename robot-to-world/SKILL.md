@@ -1,6 +1,10 @@
 ---
 name: robot-to-world
 description: 将双机焊接系统中机器人坐标（含外部轴）逆变换到世界坐标系。当用户提供机器人坐标、外部轴值（E1/E2/旋转角）及机器人臂别（A/B）时使用此 skill。
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # Robot → World 坐标逆变换

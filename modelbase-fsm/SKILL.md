@@ -5,6 +5,10 @@ description: >
   工作流数据结构、关键服务依赖、Yield API、图变换机制。
   当涉及状态机修改（增删节点、改转移、改节点逻辑、理解执行流程）时自动加载，
   避免每次反复读取源文件。
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # ModelBase FSM 状态机参考

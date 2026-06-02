@@ -8,6 +8,10 @@ description: >
   当涉及以下代码修改时使用：WeldSeamVertex 的法向量赋值、WeldCoordinateUtils 坐标系变换、
   精定位 MapMatrix 校正、VCM 法向量提取、BuildWeld2Model、DoublePlateWeldPoseSolver、
   MasterPlate/SidePlate 分配逻辑、AssignWsgDirection、ParseIntermidiateILs。
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # 焊缝法向量领域知识

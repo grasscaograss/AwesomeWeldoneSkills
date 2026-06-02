@@ -1,6 +1,11 @@
 ---
 name: create-weld-doc
 description: 在飞书"焊接"云文档文件夹中创建新的云文档，创建完成后总结文档内容。经过用户同意后，通过飞书 webhook 发送通知（含文档链接）。当用户需要新建焊接相关的飞书文档、记录焊接工作、保存焊接报告时使用。
+license: Apache-2.0
+allowed-tools: mcp__feishu-mcp__create-doc mcp__feishu-mcp__fetch-doc Write Bash
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # 创建焊接云文档并通知

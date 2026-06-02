@@ -3,8 +3,13 @@ name: git-branch-merge
 description: >
   合并差异较大的 Git 分支的结构化方法论。当源分支与目标分支差异过大，直接 merge 不可控时，
   采用"逐 spec 迁移"的方式：将源分支的提交按功能意图逐个归纳为 spec，用户审核后在目标分支重新实现。
-  触发场景：(1) 两个分支分叉时间较长（>1个月），(2) 直接 merge 冲突太多，
+  触发场景：(1) 两个分支分叉时间较长（超过1个月），(2) 直接 merge 冲突太多，
   (3) 用户说"合并分支"、"两个分支差异很大"、"分支有很多冲突"、"迁移功能"。
+license: Apache-2.0
+allowed-tools: Bash Agent
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # Git 大分支迁移方法论

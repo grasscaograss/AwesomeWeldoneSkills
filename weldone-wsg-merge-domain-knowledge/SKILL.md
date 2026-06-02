@@ -1,6 +1,10 @@
 ---
 name: weldone-wsg-merge-domain-knowledge
 description: Weldone 项目 WeldSeamGroup 合并机制的领域知识库。涵盖双层表示设计（原始 WSG / 合并 WSG）、MergedSources 数据结构、MergeWsgs 合并规则、分段精定位映射、状态通知适配等。适用于分析 WSG 合并相关代码、排查对称打断场景焊接问题、理解双机多 WSG 执行流程。
+license: Apache-2.0
+metadata:
+  author: weldone-team
+  version: "1.0.0"
 ---
 
 # WeldSeamGroup 合并领域知识

@@ -185,6 +185,13 @@
       "category": "code-review",
       "version": "1.0.0",
       "author": "community"
+    },
+    {
+      "name": "code-simplify",
+      "description": "以减法为先的代码审查：识别过度设计、冗余代码、命名晦涩、注释失衡",
+      "category": "code-review",
+      "version": "0.0.2",
+      "author": "weldone"
     }
   ],
   "categories": {

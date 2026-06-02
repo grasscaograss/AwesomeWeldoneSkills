@@ -12,19 +12,33 @@ Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以
 
 ## 注册 Marketplace
 
-### Claude Code
+### Claude Code — GitHub 源（推荐）
 
 在 Claude Code 中执行：
+
+```
+/plugin marketplace add https://github.com/grasscaograss/AwesomeWeldoneSkills.git
+```
+
+### Claude Code — GitLab 内网源
+
+如果无法访问 GitHub，可使用 GitLab 内网地址：
 
 ```
 /plugin marketplace add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
 ```
 
-> 如果遇到认证问题，配置一行让 HTTPS 走你的 SSH key：
+> 如果遇到认证问题（GitLab 在非标准端口 2022），可以用 SSH 方式：
+> 在 `~/.claude/plugins/known_marketplaces.json` 中添加：
+> ```json
+> "awesomeweldoneskills": {
+>   "source": {
+>     "source": "git",
+>     "url": "git@gitlab.roboticplus.com:robimweld/awesomeweldoneskills.git"
+>   }
+> }
 > ```
-> git config --global url."git@gitlab.roboticplus.com:".insteadOf "http://gitlab.roboticplus.com:2022/"
-> ```
-> 然后重新执行上面的 `/plugin marketplace add` 命令。
+> 或在项目的 `.claude/settings.json` 中配置 `extraKnownMarketplaces`（见下方"团队自动发现"）。
 
 注册成功后，可以浏览所有可用 skills：
 
@@ -39,7 +53,7 @@ Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以
 执行相同的命令，Codex 会读取 `.codex-plugin/marketplace.json`：
 
 ```
-/plugin marketplace add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
+/plugin marketplace add https://github.com/grasscaograss/AwesomeWeldoneSkills.git
 ```
 
 ### 团队自动发现（推荐）
@@ -52,12 +66,20 @@ Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以
     "awesomeweldoneskills": {
       "source": {
         "source": "git",
-        "repo": "http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git"
+        "url": "https://github.com/grasscaograss/AwesomeWeldoneSkills.git"
       }
     }
   }
 }
 ```
+
+> 如果只能访问内网，将 source 改为：
+> ```json
+> "source": {
+>   "source": "git",
+>   "url": "git@gitlab.roboticplus.com:robimweld/awesomeweldoneskills.git"
+> }
+> ```
 
 ---
 

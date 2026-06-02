@@ -1,38 +1,90 @@
 # AwesomeWeldoneSkills
 
-Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) marketplace。
+Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) Marketplace。
 
-每个 skill 是一个目录，包含 `SKILL.md` 和可选的 `scripts/`、`references/`、`assets/`。
-符合 [Agent Skills 规范](https://agentskills.io)，可直接用于 Claude Code 或其他支持 Agent Skills 的产品。
+## 什么是 Marketplace
 
-## 安装
+Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以在 Claude Code 或 Codex 中**浏览、搜索、一键安装**所有 skills，无需手动复制文件。
 
-### 方式 1：Junction 联接（推荐，Windows）
+本仓库包含 25 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
 
-一处更新全局生效：
+---
 
-```powershell
-# 将 skill 目录联接到当前项目的 .claude/skills/
-mklink /J .claude\skills\<skill-name> <repo-path>\<skill-name>
+## 注册 Marketplace
+
+### Claude Code
+
+在 Claude Code 中执行：
+
+```
+/plugin marketplace add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
 ```
 
-### 方式 2：直接复制
+> 如果遇到认证问题，配置一行让 HTTPS 走你的 SSH key：
+> ```
+> git config --global url."git@gitlab.roboticplus.com:".insteadOf "http://gitlab.roboticplus.com:2022/"
+> ```
+> 然后重新执行上面的 `/plugin marketplace add` 命令。
 
-```powershell
-xcopy /E /I <repo-path>\<skill-name> .claude\skills\<skill-name>
+注册成功后，可以浏览所有可用 skills：
+
+```
+/plugin marketplace list          # 查看已注册的 marketplace
+/plugin search <keyword>          # 搜索 skill
+/plugin install <skill-name>      # 安装单个 skill
 ```
 
-### 方式 3：批量安装
+### Codex
 
-复制以下内容发给 Claude Code，让它帮你完成配置：
+执行相同的命令，Codex 会读取 `.codex-plugin/marketplace.json`：
 
-> 我需要把焊接团队的 Agent Skills 配置到当前项目。
->
-> **来源仓库**：`awesomeweldoneskills`（已 clone 到本地，请确认路径）
-> **目标目录**：当前项目的 `.claude/skills/`
-> **方式**：优先用 Junction 联接，备选直接复制。
->
-> 请从 `catalog.json` 读取所有 skill 列表，按需配置。
+```
+/plugin marketplace add http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git
+```
+
+### 团队自动发现（推荐）
+
+如果希望团队成员打开项目时自动提示安装，将以下内容加入项目的 `.claude/settings.json`：
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "awesomeweldoneskills": {
+      "source": {
+        "source": "git",
+        "repo": "http://gitlab.roboticplus.com:2022/robimweld/awesomeweldoneskills.git"
+      }
+    }
+  }
+}
+```
+
+---
+
+## 安装 Skills
+
+注册 Marketplace 后，按需安装单个 skill：
+
+```
+/plugin install add-diag-logs
+/plugin install modelbase-fsm
+```
+
+---
+
+## 更新 Skills
+
+Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
+
+```
+/plugin marketplace refresh
+```
+
+然后重新安装需要更新的 skill：
+
+```
+/plugin install <skill-name>
+```
 
 ---
 

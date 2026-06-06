@@ -192,6 +192,13 @@
       "category": "code-review",
       "version": "0.0.2",
       "author": "weldone"
+    },
+    {
+      "name": "superpowers",
+      "description": "完整的 agent 开发方法论技能集：头脑风暴→计划→TDD→调试→审查→交付，共 14 个模块",
+      "category": "superpowers",
+      "version": "1.0.0",
+      "author": "superpowers (obra)"
     }
   ],
   "categories": {
@@ -205,6 +212,7 @@
     "fsm-architecture": "ModelBase 状态机架构",
     "data": "数据探索与分析",
     "meta": "Skill 创建与工具",
-    "code-review": "代码审查与重构"
+    "code-review": "代码审查与重构",
+    "superpowers": "Superpowers 开发方法论 (obra)"
   }
 }

@@ -287,7 +287,7 @@
     {
       "name": "periodic-review",
       "description": "生成月度/年度项目回顾，按领域追踪知识演进和健康度",
-      "category": "matt-pocock",
+      "category": "knowledge-management",
       "version": "1.0.0",
       "author": "weldone-team"
     },

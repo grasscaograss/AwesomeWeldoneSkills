@@ -213,6 +213,118 @@
       "category": "superpowers",
       "version": "1.0.0",
       "author": "superpowers (obra)"
+    },
+    {
+      "name": "archive",
+      "description": "多入口查询项目知识库：关键词搜索、领域浏览、术语查询、Records 时间线检索",
+      "category": "knowledge-management",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "archive-import",
+      "description": "导入外部文档到项目知识库，支持 records 模式（格式转换）和 knowledge 模式（深度整理）",
+      "category": "knowledge-management",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "archive-session",
+      "description": "会话归档：收集变更、生成 record、检测可复用知识并按领域路由写入知识库",
+      "category": "knowledge-management",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "knowledge-reorg",
+      "description": "知识库领域级重组：健康检查、合并/拆分/移动领域、合并碎片文件",
+      "category": "knowledge-management",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "caveman",
+      "description": "极简通信模式，削减 ~75% token 用量，保留完整技术准确性",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "diagnose",
+      "description": "纪律化诊断循环：复现→最小化→假设→埋点→修复→回归测试",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "grill-me",
+      "description": "针对计划或设计的 relentless 追问，逐个分支理解决策树",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "grill-with-docs",
+      "description": "基于领域模型和文档的压力测试追问，内联更新 CONTEXT.md 和 ADR",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "handoff",
+      "description": "将当前会话压缩为交接文档，供下一个 agent 接续工作",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "improve-codebase-architecture",
+      "description": "发现架构深化机会：识别浅模块、提出深度重构方案、提升可测试性",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "periodic-review",
+      "description": "生成月度/年度项目回顾，按领域追踪知识演进和健康度",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "prototype",
+      "description": "构建一次性原型验证设计：终端应用（逻辑/状态）或 UI 变体切换",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "setup-matt-pocock-skills",
+      "description": "配置 agent skills 所需的 issue tracker 和领域文档布局",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "tdd",
+      "description": "测试驱动开发：红-绿-重构循环，垂直切片 tracer bullet 工作流",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "to-prd",
+      "description": "从当前会话上下文生成 PRD 并发布到项目 issue tracker",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "zoom-out",
+      "description": "上升一层抽象，提供相关模块和调用者的全局视角",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "weldone-team"
     }
   ],
   "categories": {
@@ -227,6 +339,8 @@
     "data": "数据探索与分析",
     "meta": "Skill 创建与工具",
     "code-review": "代码审查与重构",
-    "superpowers": "Superpowers 开发方法论 (obra)"
+    "superpowers": "Superpowers 开发方法论 (obra)",
+    "knowledge-management": "项目知识库管理与检索",
+    "matt-pocock": "Matt Pocock 工程方法论 Skills"
   }
 }

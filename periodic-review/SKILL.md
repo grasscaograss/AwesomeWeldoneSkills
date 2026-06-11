@@ -1,6 +1,6 @@
 ---
 name: periodic-review
-description: Generate monthly or yearly project review summaries with domain-aware knowledge evolution tracking. Collects from archive/records/, git log, archive/knowledge/ (grouped by domain), and archive/adr/ for the given period. Use when user says "monthly review", "yearly summary", "quarterly review", calls /periodic-review, or mentions "总结", "回顾", "月报", "年报".
+description: Generate monthly or yearly project review summaries with domain-aware knowledge evolution tracking. Collects from archive/records/, git log, archive/knowledge/ (grouped by domain), and docs/adr/ for the given period. Use when user says "monthly review", "yearly summary", "quarterly review", calls /periodic-review, or mentions "总结", "回顾", "月报", "年报".
 ---
 
 # Periodic Review
@@ -30,7 +30,7 @@ Run these collections simultaneously:
 | Records | List files under `archive/records/` with date within range | 设计决策和实现记录 |
 | Git log | `git log --after=<start> --before=<end> --oneline --stat` | 变更统计 |
 | Knowledge | List files under `archive/knowledge/` modified in range, grouped by subdirectory | 领域知识演进 |
-| ADRs | Files under `archive/adr/` or `docs/adr/` created or modified in range | 架构决策 |
+| ADRs | Files under `docs/adr/` created or modified in range | 架构决策 |
 
 ### 3. Domain-grouped knowledge collection
 

@@ -152,11 +152,11 @@ if ($titleForValidation -notmatch $conventionalTitlePattern) {
     }
 }
 
-if ($titleForValidation.Length -gt 20) {
-    Stop-WithJsonError -Message "MR title must be 20 characters or fewer" -Details @{
+if ($titleForValidation.Length -gt 50) {
+    Stop-WithJsonError -Message "MR title must be 50 characters or fewer" -Details @{
         title  = $Title
         length = $titleForValidation.Length
-        limit  = 20
+        limit  = 50
     }
 }
 

@@ -21,6 +21,8 @@ param(
 
     [switch]$NoSquash,
 
+    [switch]$NoMergeWhenPipelineSucceeds,
+
     [switch]$Draft,
 
     [switch]$Force
@@ -35,13 +37,13 @@ function ConvertTo-GitLabJson {
     }
 }
 
-function Invoke-GitLabRequest {
+function Invoke-GitLabRequestResult {
     param(
         [Parameter(Mandatory = $true)]
         [string]$Uri,
 
         [Parameter(Mandatory = $true)]
-        [ValidateSet("Get", "Post")]
+        [ValidateSet("Get", "Post", "Put")]
         [string]$Method,
 
         [object]$Body = $null
@@ -54,22 +56,50 @@ function Invoke-GitLabRequest {
 
     try {
         if ($null -eq $Body) {
-            return Invoke-RestMethod -Uri $Uri -Headers $headers -Method $Method
+            $response = Invoke-RestMethod -Uri $Uri -Headers $headers -Method $Method
+            return [pscustomobject]@{
+                ok    = $true
+                value = $response
+            }
         }
 
         $json = $Body | ConvertTo-Json -Depth 10 -Compress
-        return Invoke-RestMethod -Uri $Uri -Headers $headers -Method $Method -Body $json -ContentType "application/json; charset=utf-8"
+        $response = Invoke-RestMethod -Uri $Uri -Headers $headers -Method $Method -Body $json -ContentType "application/json; charset=utf-8"
+        return [pscustomobject]@{
+            ok    = $true
+            value = $response
+        }
     }
     catch {
-        [pscustomobject]@{
+        return [pscustomobject]@{
             ok      = $false
             error   = $_.Exception.Message
             status  = Get-HttpStatusText -Exception $_.Exception
             uri     = $Uri
             created = $false
-        } | ConvertTo-GitLabJson
-        exit 1
+        }
     }
+}
+
+function Invoke-GitLabRequest {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Uri,
+
+        [Parameter(Mandatory = $true)]
+        [ValidateSet("Get", "Post", "Put")]
+        [string]$Method,
+
+        [object]$Body = $null
+    )
+
+    $result = Invoke-GitLabRequestResult -Uri $Uri -Method $Method -Body $Body
+    if ($result.ok) {
+        return $result.value
+    }
+
+    $result | ConvertTo-GitLabJson
+    exit 1
 }
 
 function Get-HttpStatusText {
@@ -137,6 +167,46 @@ function Assert-GitLabBranchExists {
     }
 }
 
+function Request-MergeWhenPipelineSucceeds {
+    param(
+        [Parameter(Mandatory = $true)]
+        [object]$MergeRequest,
+
+        [Parameter(Mandatory = $true)]
+        [bool]$ShouldSquash,
+
+        [Parameter(Mandatory = $true)]
+        [bool]$ShouldRemoveSourceBranch
+    )
+
+    $mergeUri = "$apiBase/merge_requests/$($MergeRequest.iid)/merge"
+    $mergeBody = @{
+        merge_when_pipeline_succeeds = $true
+        squash                       = $ShouldSquash
+        should_remove_source_branch  = $ShouldRemoveSourceBranch
+    }
+
+    if ($MergeRequest.PSObject.Properties.Name -contains "sha" -and -not [string]::IsNullOrWhiteSpace($MergeRequest.sha)) {
+        $mergeBody["sha"] = $MergeRequest.sha
+    }
+
+    $mergeResult = Invoke-GitLabRequestResult -Uri $mergeUri -Method Put -Body $mergeBody
+    if ($mergeResult.ok) {
+        return [pscustomobject]@{
+            requested     = $true
+            method        = "merge_when_pipeline_succeeds"
+            merge_request = $mergeResult.value
+        }
+    }
+
+    return [pscustomobject]@{
+        requested = $false
+        method    = "merge_when_pipeline_succeeds"
+        error     = $mergeResult.error
+        status    = $mergeResult.status
+    }
+}
+
 function Get-TitleForValidation {
     param([Parameter(Mandatory = $true)][string]$Value)
 
@@ -176,6 +246,7 @@ if ([string]::IsNullOrWhiteSpace($Token)) {
 $apiRoot = "$GitLabUrl/api/v4"
 $apiBase = "$apiRoot/projects/$ProjectId"
 $shouldSquash = -not [bool]$NoSquash
+$shouldMergeWhenPipelineSucceeds = -not [bool]$NoMergeWhenPipelineSucceeds -and -not [bool]$Draft
 
 $user = Invoke-GitLabRequest -Uri "$apiRoot/user" -Method Get
 $encodedSource = [System.Uri]::EscapeDataString($SourceBranch)
@@ -189,18 +260,33 @@ $existing = Invoke-GitLabRequest -Uri $existingUri -Method Get
 
 if (-not $Force -and $existing.Count -gt 0) {
     $mr = @($existing)[0]
+    $pipelineMergeResult = $null
+    $resultMr = $mr
+
+    if ($shouldMergeWhenPipelineSucceeds) {
+        $pipelineMergeResult = Request-MergeWhenPipelineSucceeds -MergeRequest $mr -ShouldSquash $shouldSquash -ShouldRemoveSourceBranch ([bool]$RemoveSourceBranch)
+        if ($pipelineMergeResult.requested) {
+            $resultMr = $pipelineMergeResult.merge_request
+        }
+    }
+
     [pscustomobject]@{
         ok                    = $true
         created               = $false
         reason                = "opened merge request already exists for source/target"
-        iid                   = $mr.iid
-        title                 = $mr.title
-        state                 = $mr.state
-        source_branch         = $mr.source_branch
-        target_branch         = $mr.target_branch
-        web_url               = $mr.web_url
-        squash                = $mr.squash
-        detailed_merge_status = $mr.detailed_merge_status
+        iid                   = $resultMr.iid
+        title                 = $resultMr.title
+        state                 = $resultMr.state
+        source_branch         = $resultMr.source_branch
+        target_branch         = $resultMr.target_branch
+        web_url               = $resultMr.web_url
+        squash                = $resultMr.squash
+        merge_when_pipeline_succeeds_requested = if ($null -ne $pipelineMergeResult) { $pipelineMergeResult.requested } else { $false }
+        merge_when_pipeline_succeeds_method = if ($null -ne $pipelineMergeResult) { $pipelineMergeResult.method } else { $null }
+        merge_when_pipeline_succeeds_error = if ($null -ne $pipelineMergeResult -and -not $pipelineMergeResult.requested) { $pipelineMergeResult.error } else { $null }
+        merge_when_pipeline_succeeds_status = if ($null -ne $pipelineMergeResult -and -not $pipelineMergeResult.requested) { $pipelineMergeResult.status } else { $null }
+        merge_when_pipeline_succeeds = $resultMr.merge_when_pipeline_succeeds
+        detailed_merge_status = $resultMr.detailed_merge_status
         api_user              = $user.username
     } | ConvertTo-GitLabJson
     exit 0
@@ -220,18 +306,32 @@ $body = @{
 }
 
 $createdMr = Invoke-GitLabRequest -Uri "$apiBase/merge_requests" -Method Post -Body $body
+$pipelineMergeResult = $null
+$resultMr = $createdMr
+
+if ($shouldMergeWhenPipelineSucceeds) {
+    $pipelineMergeResult = Request-MergeWhenPipelineSucceeds -MergeRequest $createdMr -ShouldSquash $shouldSquash -ShouldRemoveSourceBranch ([bool]$RemoveSourceBranch)
+    if ($pipelineMergeResult.requested) {
+        $resultMr = $pipelineMergeResult.merge_request
+    }
+}
 
 [pscustomobject]@{
     ok                    = $true
     created               = $true
-    iid                   = $createdMr.iid
-    title                 = $createdMr.title
-    state                 = $createdMr.state
-    source_branch         = $createdMr.source_branch
-    target_branch         = $createdMr.target_branch
-    web_url               = $createdMr.web_url
-    has_conflicts         = $createdMr.has_conflicts
-    squash                = $createdMr.squash
-    detailed_merge_status = $createdMr.detailed_merge_status
+    iid                   = $resultMr.iid
+    title                 = $resultMr.title
+    state                 = $resultMr.state
+    source_branch         = $resultMr.source_branch
+    target_branch         = $resultMr.target_branch
+    web_url               = $resultMr.web_url
+    has_conflicts         = $resultMr.has_conflicts
+    squash                = $resultMr.squash
+    merge_when_pipeline_succeeds_requested = if ($null -ne $pipelineMergeResult) { $pipelineMergeResult.requested } else { $false }
+    merge_when_pipeline_succeeds_method = if ($null -ne $pipelineMergeResult) { $pipelineMergeResult.method } else { $null }
+    merge_when_pipeline_succeeds_error = if ($null -ne $pipelineMergeResult -and -not $pipelineMergeResult.requested) { $pipelineMergeResult.error } else { $null }
+    merge_when_pipeline_succeeds_status = if ($null -ne $pipelineMergeResult -and -not $pipelineMergeResult.requested) { $pipelineMergeResult.status } else { $null }
+    merge_when_pipeline_succeeds = $resultMr.merge_when_pipeline_succeeds
+    detailed_merge_status = $resultMr.detailed_merge_status
     api_user              = $user.username
 } | ConvertTo-GitLabJson

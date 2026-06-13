@@ -61,6 +61,13 @@
       "author": "weldone-team"
     },
     {
+      "name": "gitlab-merge-request",
+      "description": "专门创建 Weldone GitLab Merge Request：确认目标分支、推送源分支、查重并创建 MR",
+      "category": "git-gitlab",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
       "name": "gitlab-ops",
       "description": "GitLab 项目操作：Issue / Label / MR / Milestone 管理",
       "category": "git-gitlab",

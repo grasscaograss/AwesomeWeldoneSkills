@@ -6,7 +6,7 @@ Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) Marketpl
 
 Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以在 Claude Code 或 Codex 中**浏览、搜索、一键安装**所有 skills，无需手动复制文件。
 
-本仓库包含 25 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
+本仓库包含 26 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
 
 ---
 
@@ -158,6 +158,7 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 |-------|-------------|
 | [git-branch-merge](git-branch-merge/) | 大分支差异合并方法论（逐 spec 迁移） |
 | [gitlab-issue](gitlab-issue/) | 协作式 GitLab Issue 创建 |
+| [gitlab-merge-request](gitlab-merge-request/) | 专门创建 GitLab Merge Request：推送源分支、查重并创建 MR |
 | [gitlab-ops](gitlab-ops/) | GitLab 项目操作：Issue / Label / MR / Milestone |
 
 ### OpenSpec

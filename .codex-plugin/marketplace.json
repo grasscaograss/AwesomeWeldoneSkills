@@ -81,6 +81,11 @@
       "description": "探索 Robim.Data 源码类型定义"
     },
     {
+      "name": "x-twitter-scraper",
+      "source": "./x-twitter-scraper",
+      "description": "为 Agent 提供 X/Twitter 数据搜索、监控、Webhook、MCP 与 REST API 工作流"
+    },
+    {
       "name": "robot-to-world",
       "source": "./robot-to-world",
       "description": "机器人坐标到世界坐标的逆变换"

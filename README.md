@@ -6,7 +6,7 @@ Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) Marketpl
 
 Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以在 Claude Code 或 Codex 中**浏览、搜索、一键安装**所有 skills，无需手动复制文件。
 
-本仓库包含 26 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
+本仓库包含 29 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
 
 ---
 
@@ -31,7 +31,7 @@ Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以
 
 > CC-switch 还支持自动更新检测、批量更新、卸载备份恢复等功能，详见 [CC-switch 文档](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/zh/3-extensions/3.3-skills.md)。
 
-### Claude Code — 直接添加源
+### Claude Code - 直接添加源
 
 如果不想使用 CC-switch，也可以在 Claude Code 中直接添加：
 
@@ -193,6 +193,7 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 | Skill | Description |
 |-------|-------------|
 | [robim-data-explorer](robim-data-explorer/) | 探索 Robim.Data 源码类型定义 |
+| [x-twitter-scraper](x-twitter-scraper/) | 为 Agent 提供 X/Twitter 数据搜索、监控、Webhook、MCP 与 REST API 工作流 |
 
 ### Meta - 工具
 

@@ -6,7 +6,7 @@ Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) Marketpl
 
 Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以在 Claude Code 或 Codex 中**浏览、搜索、一键安装**所有 skills，无需手动复制文件。
 
-本仓库包含 26 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
+本仓库包含 30 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
 
 ---
 
@@ -151,6 +151,7 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 | [parallel-feature](parallel-feature/) | 并行 Agent 开发：契约 → 并行施工 → 集成验收 |
 | [add-diag-logs](add-diag-logs/) | 自动注入诊断日志辅助 bug 定位 |
 | [weld-plan-debug](weld-plan-debug/) | 焊接规划失败调试工作流 |
+| [weldone-hybrid-seam-replay-debug](weldone-hybrid-seam-replay-debug/) | 混合焊缝 replay 包调试与 Arc 拟合诊断 |
 
 ### Git & GitLab
 

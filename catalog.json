@@ -117,6 +117,13 @@
       "author": "weldone-team"
     },
     {
+      "name": "x-twitter-scraper",
+      "description": "为 Agent 提供 X/Twitter 数据搜索、监控、Webhook、MCP 与 REST API 工作流",
+      "category": "data",
+      "version": "1.0.0",
+      "author": "Xquik-dev"
+    },
+    {
       "name": "robot-to-world",
       "description": "机器人坐标到世界坐标的逆变换",
       "category": "robotics",

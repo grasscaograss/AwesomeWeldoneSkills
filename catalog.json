@@ -187,6 +187,13 @@
       "author": "weldone-team"
     },
     {
+      "name": "weldone-hybrid-seam-replay-debug",
+      "description": "Weldone 混合焊缝 replay 包调试：单机/双机重构、LaserPoint RANSAC、Arc 拟合阈值与弱诊断",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
       "name": "world-to-robot",
       "description": "世界坐标到机器人坐标的正向变换",
       "category": "robotics",

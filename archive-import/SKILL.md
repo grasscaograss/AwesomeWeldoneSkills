@@ -1,6 +1,6 @@
 ---
 name: archive-import
-description: Import external documents into the project archive. Two modes: → records (format conversion with TL;DR) for specs and reports, or → knowledge (multi-agent parallel organization with dedup/merge) for technical references and wiki dumps. Use when user wants to import external docs, zread output, spec documents, or reference materials into the archive.
+description: "Import external documents into the project archive. Two modes: → records (format conversion with TL;DR) for specs and reports, or → knowledge (multi-agent parallel organization with dedup/merge) for technical references and wiki dumps. Use when user wants to import external docs, zread output, spec documents, or reference materials into the archive."
 ---
 
 # Archive Import — 文档导入
@@ -172,7 +172,7 @@ metadata:
 4. **检查新术语** — 扫描新生成的知识文件，提取可能需要加入 `archive/CONTEXT.md` 的术语：
    - 列出候选术语和定义
    - 请用户确认
-   - 按 CONTEXT.md 现有格式写入（术语名、定义、`_Avoid_` 提示）
+   - 按 archive/CONTEXT.md 现有格式写入（术语名、定义、`_Avoid_` 提示）
 
 ### 知识文件格式（规范）
 

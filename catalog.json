@@ -247,112 +247,161 @@
       "description": "多入口查询项目知识库：关键词搜索、领域浏览、术语查询、Records 时间线检索",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "archive-import",
       "description": "导入外部文档到项目知识库，支持 records 模式（格式转换）和 knowledge 模式（深度整理）",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "archive-session",
       "description": "会话归档：收集变更、生成 record、检测可复用知识并按领域路由写入知识库",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "knowledge-reorg",
       "description": "知识库领域级重组：健康检查、合并/拆分/移动领域、合并碎片文件",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
-      "name": "caveman",
-      "description": "极简通信模式，削减 ~75% token 用量，保留完整技术准确性",
+      "name": "diagnosing-bugs",
+      "description": "纪律化诊断循环：复现→最小化→假设→埋点→修复→回归",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
-    },
-    {
-      "name": "diagnose",
-      "description": "纪律化诊断循环：复现→最小化→假设→埋点→修复→回归测试",
-      "category": "matt-pocock",
-      "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "grill-me",
       "description": "针对计划或设计的 relentless 追问，逐个分支理解决策树",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "grill-with-docs",
-      "description": "基于领域模型和文档的压力测试追问，内联更新 CONTEXT.md 和 ADR",
+      "description": "针对计划的 relentless 追问，过程中内联生成 ADR 和术语表",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "handoff",
       "description": "将当前会话压缩为交接文档，供下一个 agent 接续工作",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "improve-codebase-architecture",
-      "description": "发现架构深化机会：识别浅模块、提出深度重构方案、提升可测试性",
+      "description": "扫描代码库寻找深化机会，生成可视化 HTML 报告，再逐个 grill 落实",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "periodic-review",
       "description": "生成月度/年度项目回顾，按领域追踪知识演进和健康度",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "prototype",
       "description": "构建一次性原型验证设计：终端应用（逻辑/状态）或 UI 变体切换",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "setup-matt-pocock-skills",
-      "description": "配置 agent skills 所需的 issue tracker 和领域文档布局",
+      "description": "配置工程 skills 的 issue tracker、triage 标签词表和领域文档布局",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "tdd",
       "description": "测试驱动开发：红-绿-重构循环，垂直切片 tracer bullet 工作流",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
       "name": "to-prd",
       "description": "从当前会话上下文生成 PRD 并发布到项目 issue tracker",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
     },
     {
-      "name": "zoom-out",
-      "description": "上升一层抽象，提供相关模块和调用者的全局视角",
+      "name": "ask-matt",
+      "description": "路由器：询问当前场景适合哪种 skill 或流程",
       "category": "matt-pocock",
       "version": "1.0.0",
-      "author": "weldone-team"
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "codebase-design",
+      "description": "深模块设计共享词汇表，辅助接口设计、深化机会与可测试性决策",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "domain-modeling",
+      "description": "构建和打磨项目领域模型，统一领域术语并记录架构决策",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "grilling",
+      "description": "计划/设计压力测试追问，匹配 grill 触发词",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "implement",
+      "description": "基于 PRD 或一组 issue 实现一项工作",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "teach",
+      "description": "在工作区内向用户教授新技能或概念",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "to-issues",
+      "description": "将计划/spec/PRD 拆解为可独立认领的 issue（垂直切片 tracer bullet）",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "triage",
+      "description": "将 issue 和外部 PR 推过 triage 状态机：分类、验证、必要时 grill，产出 agent 就绪简报",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "writing-great-skills",
+      "description": "skill 写作参考：让 skill 可预测的词汇与原则",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
     }
   ],
   "categories": {

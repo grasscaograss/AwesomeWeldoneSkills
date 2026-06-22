@@ -46,6 +46,11 @@
       "description": "与开发人员协作创建 GitLab Issue"
     },
     {
+      "name": "gitlab-merge-request",
+      "source": "./gitlab-merge-request",
+      "description": "专门创建 Weldone GitLab Merge Request：确认目标分支、推送源分支、查重并创建 MR"
+    },
+    {
       "name": "gitlab-ops",
       "source": "./gitlab-ops",
       "description": "GitLab 项目操作：Issue / Label / MR / Milestone 管理"
@@ -101,6 +106,11 @@
       "description": "焊接规划失败调试工作流"
     },
     {
+      "name": "weldone-hybrid-seam-replay-debug",
+      "source": "./weldone-hybrid-seam-replay-debug",
+      "description": "Weldone 混合焊缝 replay 包调试：单机/双机重构、LaserPoint RANSAC、Arc 拟合阈值与弱诊断"
+    },
+    {
       "name": "weld-seam-normal-vectors",
       "source": "./weld-seam-normal-vectors",
       "description": "焊缝法向量领域知识：坐标系构建、调用链、平焊缝校正"
@@ -149,6 +159,16 @@
       "name": "knowledge-reorg",
       "source": "./knowledge-reorg",
       "description": "知识库领域级重组：健康检查、合并/拆分/移动领域、合并碎片文件"
+    },
+    {
+      "name": "DDD-review",
+      "source": "./DDD-review",
+      "description": "Martin Fowler 代码审查视角：代码异味识别、重构手法建议、可读性评估"
+    },
+    {
+      "name": "code-simplify",
+      "source": "./code-simplify",
+      "description": "以减法为先的代码审查：识别过度设计、冗余代码、命名晦涩、注释失衡"
     },
     {
       "name": "diagnosing-bugs",
@@ -244,6 +264,11 @@
       "name": "writing-great-skills",
       "source": "./writing-great-skills",
       "description": "skill 写作参考：让 skill 可预测的词汇与原则"
+    },
+    {
+      "name": "superpowers",
+      "source": "./superpowers",
+      "description": "完整的 agent 开发方法论技能集：头脑风暴→计划→TDD→调试→审查→交付，共 14 个模块"
     }
   ]
 }

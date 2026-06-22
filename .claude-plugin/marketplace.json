@@ -46,6 +46,11 @@
       "description": "与开发人员协作创建 GitLab Issue"
     },
     {
+      "name": "gitlab-merge-request",
+      "source": "./gitlab-merge-request",
+      "description": "专门创建 Weldone GitLab Merge Request：确认目标分支、推送源分支、查重并创建 MR"
+    },
+    {
       "name": "gitlab-ops",
       "source": "./gitlab-ops",
       "description": "GitLab 项目操作：Issue / Label / MR / Milestone 管理"
@@ -101,6 +106,11 @@
       "description": "焊接规划失败调试工作流"
     },
     {
+      "name": "weldone-hybrid-seam-replay-debug",
+      "source": "./weldone-hybrid-seam-replay-debug",
+      "description": "Weldone 混合焊缝 replay 包调试：单机/双机重构、LaserPoint RANSAC、Arc 拟合阈值与弱诊断"
+    },
+    {
       "name": "weld-seam-normal-vectors",
       "source": "./weld-seam-normal-vectors",
       "description": "焊缝法向量领域知识：坐标系构建、调用链、平焊缝校正"
@@ -129,6 +139,136 @@
       "name": "world-to-robot",
       "source": "./world-to-robot",
       "description": "世界坐标到机器人坐标的正向变换"
+    },
+    {
+      "name": "archive",
+      "source": "./archive",
+      "description": "多入口查询项目知识库：关键词搜索、领域浏览、术语查询、Records 时间线检索"
+    },
+    {
+      "name": "archive-import",
+      "source": "./archive-import",
+      "description": "导入外部文档到项目知识库，支持 records 模式（格式转换）和 knowledge 模式（深度整理）"
+    },
+    {
+      "name": "archive-session",
+      "source": "./archive-session",
+      "description": "会话归档：收集变更、生成 record、检测可复用知识并按领域路由写入知识库"
+    },
+    {
+      "name": "knowledge-reorg",
+      "source": "./knowledge-reorg",
+      "description": "知识库领域级重组：健康检查、合并/拆分/移动领域、合并碎片文件"
+    },
+    {
+      "name": "DDD-review",
+      "source": "./DDD-review",
+      "description": "Martin Fowler 代码审查视角：代码异味识别、重构手法建议、可读性评估"
+    },
+    {
+      "name": "code-simplify",
+      "source": "./code-simplify",
+      "description": "以减法为先的代码审查：识别过度设计、冗余代码、命名晦涩、注释失衡"
+    },
+    {
+      "name": "diagnosing-bugs",
+      "source": "./diagnosing-bugs",
+      "description": "纪律化诊断循环：复现→最小化→假设→埋点→修复→回归"
+    },
+    {
+      "name": "grill-me",
+      "source": "./grill-me",
+      "description": "针对计划或设计的 relentless 追问，逐个分支理解决策树"
+    },
+    {
+      "name": "grill-with-docs",
+      "source": "./grill-with-docs",
+      "description": "针对计划的 relentless 追问，过程中内联生成 ADR 和术语表"
+    },
+    {
+      "name": "handoff",
+      "source": "./handoff",
+      "description": "将当前会话压缩为交接文档，供下一个 agent 接续工作"
+    },
+    {
+      "name": "improve-codebase-architecture",
+      "source": "./improve-codebase-architecture",
+      "description": "扫描代码库寻找深化机会，生成可视化 HTML 报告，再逐个 grill 落实"
+    },
+    {
+      "name": "periodic-review",
+      "source": "./periodic-review",
+      "description": "生成月度/年度项目回顾，按领域追踪知识演进和健康度"
+    },
+    {
+      "name": "prototype",
+      "source": "./prototype",
+      "description": "构建一次性原型验证设计：终端应用（逻辑/状态）或 UI 变体切换"
+    },
+    {
+      "name": "setup-matt-pocock-skills",
+      "source": "./setup-matt-pocock-skills",
+      "description": "配置工程 skills 的 issue tracker、triage 标签词表和领域文档布局"
+    },
+    {
+      "name": "tdd",
+      "source": "./tdd",
+      "description": "测试驱动开发：红-绿-重构循环，垂直切片 tracer bullet 工作流"
+    },
+    {
+      "name": "to-prd",
+      "source": "./to-prd",
+      "description": "从当前会话上下文生成 PRD 并发布到项目 issue tracker"
+    },
+    {
+      "name": "ask-matt",
+      "source": "./ask-matt",
+      "description": "路由器：询问当前场景适合哪种 skill 或流程"
+    },
+    {
+      "name": "codebase-design",
+      "source": "./codebase-design",
+      "description": "深模块设计共享词汇表，辅助接口设计、深化机会与可测试性决策"
+    },
+    {
+      "name": "domain-modeling",
+      "source": "./domain-modeling",
+      "description": "构建和打磨项目领域模型，统一领域术语并记录架构决策"
+    },
+    {
+      "name": "grilling",
+      "source": "./grilling",
+      "description": "计划/设计压力测试追问，匹配 grill 触发词"
+    },
+    {
+      "name": "implement",
+      "source": "./implement",
+      "description": "基于 PRD 或一组 issue 实现一项工作"
+    },
+    {
+      "name": "teach",
+      "source": "./teach",
+      "description": "在工作区内向用户教授新技能或概念"
+    },
+    {
+      "name": "to-issues",
+      "source": "./to-issues",
+      "description": "将计划/spec/PRD 拆解为可独立认领的 issue（垂直切片 tracer bullet）"
+    },
+    {
+      "name": "triage",
+      "source": "./triage",
+      "description": "将 issue 和外部 PR 推过 triage 状态机：分类、验证、必要时 grill，产出 agent 就绪简报"
+    },
+    {
+      "name": "writing-great-skills",
+      "source": "./writing-great-skills",
+      "description": "skill 写作参考：让 skill 可预测的词汇与原则"
+    },
+    {
+      "name": "superpowers",
+      "source": "./superpowers",
+      "description": "完整的 agent 开发方法论技能集：头脑风暴→计划→TDD→调试→审查→交付，共 14 个模块"
     }
   ]
 }

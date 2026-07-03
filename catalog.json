@@ -12,6 +12,13 @@
       "author": "weldone-team"
     },
     {
+      "name": "add-diag-instrumentation",
+      "description": "为 .NET 代码添加 EventSource 结构化诊断事件源 + dotnet-monitor 崩溃自动 dump 配置，运行时动态开启、零开销、无需发版",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
       "name": "build-publish-run",
       "description": "项目构建、发布和运行工作流",
       "category": "development-workflow",

@@ -13,6 +13,7 @@
 | `Robim-WeldPlanning` | `src/Weldone.Domain/Welding/ToolPlanning/WeldPlanningEventSource.cs` | 焊缝规划/姿态计算/生成焊缝/工艺列表/规划编排 | ✅ 已落地，已用 event id: 1-11 |
 | `Robim-VisionScan` | `src/Weldone.Application/Scanning/VisionScanEventSource.cs` | 扫描姿态规划/视觉单元 | ✅ 已落地，已用 event id: 1-6 |
 | `Robim-Workflow` | `src/Weldone.Application/StateEngines/WorkflowEventSource.cs` | FSM 状态机流转（55 个 `[FSMNode]` 节点的进入/离开，单一汇聚点捕获） | ✅ 已落地，已用 event id: 1-5 |
+| `Robim-RobotControl` | `src/Weldone.Application/Robot/RobotControlEventSource.cs` | 机器人寄存器读写/握手等待/关节位姿读取 | ✅ 已落地，已用 event id: 1-8 |
 
 ---
 
@@ -81,6 +82,36 @@
 - **节点慢**：`NodeLeave` 的 `durationMs` 超长 → 该节点内部某步慢（通常是设备通信/人工等待）。
 - **异常转移**：`NodeEnter` 的 `prevNode=ExceptionNode` → 知道是哪个节点抛的异常。
 - **循环死锁**：同一 `nodeName` 反复 Enter/Leave 且不推进 → 业务逻辑死循环。
+
+---
+
+## `Robim-RobotControl`（id 1-8）
+
+采集命令：`dotnet-trace collect -p <PID> --providers Robim-RobotControl --duration 00:00:30`
+
+覆盖机器人控制器寄存器读写——weldone 与物理机器人控制器通信的核心路径，偶发卡死高发区（寄存器握手等待示教器刷新）。埋点位置：`RobotManagementAppService` 的寄存器握手方法。所有事件以 `register`（寄存器号）为关联键。
+
+| id | 方法 | Level | 参数（顺序） | 埋点位置 | 说明 |
+|---|---|---|---|---|---|
+| 1 | `RegWrite` | Info | `register, value` | `RunTransition` 内 `WriteIntRegisterAsync` 后 | 整数寄存器写入 |
+| 2 | `RegWaitStart` | Info | `register, expectValue, timeoutSec` | `RunTransition` 内 `WaitIntRegisterAsync` 前 | 开始等待寄存器达到期望值 |
+| 3 | `RegWaitResult` | Info | `register, success, durationMs` | `RunTransition` 内 `WaitIntRegisterAsync` 后 | 等待结果（success=是否达到期望值） |
+| 4 | `RegWaitTimeout` | Warning | `register, expectValue, durationMs` | `WaitIntRegisterAsync` 返回 false 时 | 等待超时（机器人未在预期内响应） |
+| 5 | `RegReadFloat` | Info | `register, value, durationMs` | `ReadArcEndPosition`/`GetLaserPointInRobotCoord` 的 `ReadFloatRegisterAsync` 后 | 浮点寄存器读取 |
+| 6 | `RegReadInt` | Info | `register, value` | `CheckTeachPendantOffAsync` 的 `ReadIntRegisterAsync` 后 | 整数寄存器读取 |
+| 7 | `JointPoseRead` | Info | `source, robotIndex, j0, j1, j2, j3, j4, j5, e0, e1, e2` | `GetJointPoseFromRegistersAsync`/`ReadArcEndPositionFromRegistersAsync` 出口 | 关节位姿读取（6 关节 + 3 外轴，共 9 值） |
+| 8 | `HandshakeDone` | Info | `operation, success, durationMs, step` | `RunTransition` 出口（成功/失败两路） | 握手协议完成；step=卡在的步骤名 |
+
+**后续追加事件从 id=9 起编号。**
+
+**寄存器握手协议**：weldone 与机器人控制器通过"写寄存器→等寄存器达到期望值"的握手协议通信（如 `RunTransition`：写 Process→等 TransitionFile=UploadRequest→上传→写 UploadSuccess→等 TransitionJob=RobotStart→写 HostResponseStart→等 RobotFinish）。每一步的 `WaitIntRegisterAsync` 都是阻塞等待，是卡死高发区（代码注释："bug 这里写了 示教器也有值 但是卡住了没有下一步"）。埋点让每一步等待的耗时、是否超时完全可见。
+
+### `Robim-RobotControl` 典型诊断场景（解读事件流时套用）
+
+- **握手卡死**：`RegWaitStart` 没有配对的 `RegWaitResult` → 卡在等哪个 `register`、等什么 `expectValue`。
+- **握手超时**：`RegWaitTimeout`（success=false）→ 机器人没在预期时间内响应。
+- **关节读取异常**：`JointPoseRead` 的 `j0..j5` 值越界/NaN → 通信干扰或寄存器映射错位。
+- **定位失败步骤**：`HandshakeDone` 的 `step` 字段 → 知道卡在握手协议的哪一步。
 
 ---
 

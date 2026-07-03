@@ -135,3 +135,14 @@ public bool TryCalculateWeldToolPoses(WsWeldPosParam param, PoseCalculationMode 
 | 适用 | 日常审计、粗粒度流程、一次性定位 | 偶发问题、深度诊断、性能剖析 |
 
 **两者并存**：ILogger 做日常厚日志，EventSource 做深度诊断探针。一个流程可以同时有两者的埋点。
+
+## 配套读取器：read-diag-captures
+
+本 skill 负责**埋点和采集**（写 EventSource、跑 dotnet-trace/dump 抓数据），产物落点约定在 `<项目目录>/Diagnostics/`。**解读这些产物**用配套 skill `read-diag-captures`：它定位 Diagnostics 目录、把事件 ID 翻译成事件名+参数含义（见 [`references/instrumentation-guide.md`](./references/instrumentation-guide.md) 与 `read-diag-captures/references/eventsource-catalog.md`，两份保持同步）、按文件类型（`.nettrace`/`.dmp`/`.csv`/`.speedscope.json`）给出解读方法。
+
+| 阶段 | 文本日志线 | 结构化诊断线 |
+|---|---|---|
+| 埋点/注入 | add-diag-logs | **本 skill（add-diag-instrumentation）** |
+| 读取/解读 | weldone-project-logs | **read-diag-captures** |
+
+一个偶发问题的完整排查路径：先用本 skill 埋 EventSource → 复现时 dotnet-trace 抓取 → 用 read-diag-captures 解读事件流定位。

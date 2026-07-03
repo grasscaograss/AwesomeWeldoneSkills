@@ -12,8 +12,22 @@
       "author": "weldone-team"
     },
     {
+      "name": "weldone-project-logs",
+      "description": "读取 Weldone 项目运行日志（Serilog）与设备/规划配置 JSON 辅助排障，基于 %APPDATA% 动态定位当前激活项目",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
       "name": "add-diag-instrumentation",
       "description": "为 .NET 代码添加 EventSource 结构化诊断事件源 + dotnet-monitor 崩溃自动 dump 配置，运行时动态开启、零开销、无需发版",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
+      "name": "read-diag-captures",
+      "description": "读取并解读 Weldone 的 .NET 动态诊断采集产物（dotnet-trace/dotnet-dump/dotnet-counters 抓取的 nettrace/dmp/csv/speedscope），把 EventID 翻译成事件名与参数含义",
       "category": "development-workflow",
       "version": "1.0.0",
       "author": "weldone-team"

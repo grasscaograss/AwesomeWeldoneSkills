@@ -4,22 +4,25 @@
 
 ## 一、weldone EventSource 清单
 
-维护本表，新增 EventSource 或事件时更新。截止 2026-07-02：
+维护本表，新增 EventSource 或事件时更新。截止 2026-07-03：
+
+> 事件目录的**权威版本**见 `read-diag-captures/references/eventsource-catalog.md`（基于实际 `*EventSource.cs` 源码核对，含参数顺序与语义）。本文件从埋点视角描述，两份 guide 保持同步。
 
 | EventSource 名 | 文件位置 | 业务域 | 状态 |
 |---|---|---|---|
 | `Robim-WeldPlanning` | src/Weldone.Domain/Welding/ToolPlanning/WeldPlanningEventSource.cs | 焊缝规划/姿态计算/生成焊缝/工艺列表/规划编排 | ✅ 已落地，已用 event id: 1-11 |
 | `Robim-VisionScan` | src/Weldone.Application/Scanning/VisionScanEventSource.cs | 扫描姿态规划/视觉单元 | ✅ 已落地，已用 event id: 1-6 |
+| `Robim-Workflow` | src/Weldone.Application/StateEngines/WorkflowEventSource.cs | FSM 状态机流转/节点进入离开/执行器生命周期 | ✅ 已落地，已用 event id: 1-5 |
 
 ### `Robim-WeldPlanning` 已定义事件
 
 | id | 方法 | 埋点位置 | 说明 |
 |---|---|---|---|
 | 1 | `PlanGroupStart` | WeldPoseSolverManager.CalculateWeldToolPoses 入口 | wsgName/cilIdx/wsgIndex/mode/isMerged |
-| 2 | `PlanGroupEnd` | CalculateWeldToolPoses 两个 return 前（正常+早期） | success/durationMs/basePoseCount/multiPassCount |
-| 3 | `PlanGroupSlow` | CalculateWeldToolPoses 正常 return 前（>3s） | durationMs/basePoseCount |
-| 4 | `NativeCalcResult` | TryCalculateWeldToolPoses 调用后 | nativeSuccess/resultPointCount/durationMs |
-| 5 | `NativeCalcFallback` | 三处降级点（merged/empty/exception） | reason |
+| 2 | `PlanGroupEnd` | CalculateWeldToolPoses 两个 return 前（正常+早期） | wsgName/cilIdx/success/durationMs/basePoseCount/multiPassCount |
+| 3 | `PlanGroupSlow`（Warning） | CalculateWeldToolPoses 正常 return 前（>3s） | wsgName/cilIdx/durationMs/basePoseCount |
+| 4 | `NativeCalcResult` | TryCalculateWeldToolPoses 调用后 | wsgName/cilIdx/nativeSuccess/resultPointCount/durationMs |
+| 5 | `NativeCalcFallback`（Warning） | 三处降级点（merged/empty/exception） | wsgName/cilIdx/reason |
 | 6 | `GenPathsStart` | FlexBeamWorkpieceManager.GenerateWeldPathsAsync 入口 | workpieceId/workpieceType/isSymmetricSplited/isLengthBreak |
 | 7 | `GenPathsEarlyReturn` | GenerateWeldPathsAsync 两处提前返回（native几何/CIL 生成失败） | workpieceId/reason |
 | 8 | `GenPathsEnd` | GenerateWeldPathsAsync 出口 | workpieceId/wsgCount/seamCount/wrapPairCount/durationMs |
@@ -42,15 +45,37 @@
 
 **后续 `Robim-VisionScan` 追加事件从 id=7 起编号。**
 
+### `Robim-Workflow` 已定义事件
+
+覆盖全部 55 个 `[FSMNode]` 节点——**通过 FSMExecutor 的 StateTrackInfo 单一汇聚点捕获，无需逐节点埋点**。埋点位置：`FSMAppService.SetFSM` 的 Rx pipeline + 各 `StartXxxAsync` 方法 + `Executor_FSMStateChanged` 回调。
+
+| id | 方法 | 埋点位置 | 说明 |
+|---|---|---|---|
+| 1 | `RunStart` | FSMAppService 的 5 个 StartXxxAsync 方法（RestartAsync 前） | fsmType/executorRole/workpieceIds（逗号分隔） |
+| 2 | `NodeEnter` | SetFSM 的 Rx Select，StateTrackInfo.IsEnter=true 分支 | fsmType/nodeName/prevNode（首次为空） |
+| 3 | `NodeLeave` | SetFSM 的 Rx Select，StateTrackInfo.IsEnter=false 分支 | fsmType/nodeName/durationMs（节点停留时长） |
+| 4 | `NodeStuck` | SetFSM 的 Rx Select，NodeLeave 后 durationMs>30000 时 | fsmType/nodeName/durationMs（Warning 级别） |
+| 5 | `StateChanged` | FSMAppService.Executor_FSMStateChanged 回调 | fsmType/state/prevState（Running/Paused/Stopped/Finished） |
+
+**后续 `Robim-Workflow` 追加事件从 id=6 起编号。**
+
+**FSM 节点停留时长机制**：`FSMAppService` 维护 `_nodeEnterWatches` 字典（节点名→Stopwatch）。NodeEnter 时启动计时，NodeLeave 时停止并算出 durationMs。切换执行器（SetFSM）时清空。这能直接诊断"卡在哪个节点多久"——例如 `FineLocExceptionHandler` 等待用户决议、`WeldExecute` 设备通信超时。
+
+**典型诊断场景**：
+- FSM 卡死：NodeEnter 没有配对的 NodeLeave → 卡在哪个节点一目了然
+- 节点慢：NodeLeave 的 durationMs 超长（设备通信/人工等待）
+- 异常转移：NodeEnter 的 prevNode=ExceptionNode → 哪个节点抛了异常
+- 循环死锁：同一 nodeName 反复 Enter/Leave 且不推进 → 业务逻辑死循环
+
 **规划中应覆盖的 EventSource（按业务域）：**
 
 | 名 | 业务域 | 状态 |
 |---|---|---|
 | `Robim-WeldPlanning` | 焊接姿态/规划/生成焊缝/工艺列表/规划编排 | ✅ 已落地（id 1-11，见上表） |
 | `Robim-VisionScan` | 扫描姿态规划/视觉单元 | ✅ 已落地（id 1-6，见上表） |
+| `Robim-Workflow` | FSM 状态机流转（覆盖全部 55 节点） | ✅ 已落地（id 1-5，见上表） |
 | `Robim-RobotControl` | 机器人运动规划/执行 | ⬜ 待落地。关键方法：RobotPlanSolver.TrySolveMoveLWithExternal, RobotPostExtension.MoveJ/MoveL |
 | `Robim-VisionPositioning` | 粗/精定位 | ⬜ 待落地。关键方法：粗定位/精定位 FSM 节点 |
-| `Robim-Workflow` | FSM 状态机流转 | ⬜ 待落地。关键方法：各 [FSMNode] 节点的进入/离开/转换 |
 
 **新增事件 id 分配规则**：每个 EventSource 内部，`[Event(id)]` 的 id 从 1 开始递增，新增事件取当前最大 id + 1。跨 EventSource 不共享 id 空间。
 

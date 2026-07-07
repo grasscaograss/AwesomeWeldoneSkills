@@ -111,6 +111,11 @@
       "description": "自动定位当前 Weldone 项目对应的 URDF 文件"
     },
     {
+      "name": "weldone-db-migration",
+      "source": "./weldone-db-migration",
+      "description": "Weldone 数据库迁移守护：检查 EF Core 迁移状态并在 migrate 前备份数据库"
+    },
+    {
       "name": "weldone-mapmatrix-domain-knowledge",
       "source": "./weldone-mapmatrix-domain-knowledge",
       "description": "MapMatrix 扫描校准模块领域知识"

@@ -208,6 +208,13 @@
       "author": "weldone-team"
     },
     {
+      "name": "weldone-db-migration",
+      "description": "Weldone 数据库迁移守护：检查 EF Core 迁移状态、优先 update-db，并在 migrate 前备份 PostgreSQL",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
       "name": "world-to-robot",
       "description": "世界坐标到机器人坐标的正向变换",
       "category": "robotics",

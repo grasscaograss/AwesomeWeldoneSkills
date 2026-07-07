@@ -152,6 +152,7 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 | [add-diag-logs](add-diag-logs/) | 自动在代码中注入诊断日志，辅助定位 bug |
 | [weld-plan-debug](weld-plan-debug/) | 焊接规划失败调试工作流 |
 | [weldone-hybrid-seam-replay-debug](weldone-hybrid-seam-replay-debug/) | Weldone 混合焊缝 replay 包调试：单机/双机重构、LaserPoint RANSAC、Arc 拟合阈值与弱诊断 |
+| [weldone-db-migration](weldone-db-migration/) | Weldone 数据库迁移守护：EF Core migration 检查、update-db 优先、migrate 前备份 |
 
 ### Git & GitLab
 
@@ -256,3 +257,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 Apache 2.0. See [LICENSE](LICENSE).
+

@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+#Requires -Version 7.0
 <#
 .SYNOPSIS
     Regenerates the type index for robim-data-explorer skill.
@@ -6,6 +6,12 @@
     Scans d:/robim_data/src for public C# types and protobuf messages/enums,
     then writes an updated references/type-index.md.
 #>
+
+$ErrorActionPreference = 'Stop'
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Console]::OutputEncoding
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 $BaseDir = "D:/robim_data/src"
 $SkillDir = "$env:USERPROFILE/.claude/skills/robim-data-explorer"

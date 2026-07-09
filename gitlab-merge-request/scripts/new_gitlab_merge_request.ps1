@@ -1,3 +1,5 @@
+#Requires -Version 7.0
+
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
@@ -29,6 +31,10 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Console]::OutputEncoding
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 function ConvertTo-GitLabJson {
     param([Parameter(ValueFromPipeline = $true)]$InputObject)

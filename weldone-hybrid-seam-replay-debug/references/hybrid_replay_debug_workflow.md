@@ -22,17 +22,17 @@ Use this reference to debug Weldone hybrid weld seam reconstruction problems fro
 2. Create an output path that does not overwrite input, for example:
    `SingleHybridReconstructionReplayPackage.replayed.<topic>.<yyyyMMdd_HHmmss_fff>.json`.
 3. Run the proper CLI recipe from repo root:
-   ```powershell
+   ```pwsh
    just replay-single-hybrid "<input>" "<output>"
    just replay-dualarm-hybrid "<input>" "<output>"
    ```
 4. If replay fails, inspect the saved failure package instead of only reading console logs.
 5. Summarize the saved package:
-   ```powershell
+   ```pwsh
    python "C:\Users\mini-pc\.codex\skills\weldone-hybrid-seam-replay-debug\scripts\summarize_replay_arc_diagnostics.py" "<output>"
    ```
 6. Restore `src/Weldone.Cli/Logs/logs.txt` if CLI execution modified it:
-   ```powershell
+   ```pwsh
    git restore --worktree -- src/Weldone.Cli/Logs/logs.txt
    ```
 

@@ -2,7 +2,7 @@
 name: gitlab-ops
 description: 操作 GitLab 项目（Issue / Label / MR / Milestone 管理）。触发场景：(1) 用户要求创建/查询/修改 GitLab Issue、标签、里程碑、MR；(2) 用户说"gitlab"、"issue"、"标签"、"看板"；(3) 批量管理项目标签或 Issue 状态
 license: Apache-2.0
-allowed-tools: PowerShell
+allowed-tools: Bash
 metadata:
   author: weldone-team
   version: "1.0.0"
@@ -22,9 +22,9 @@ Weldone 项目的 GitLab 实例信息：
 
 ## API 调用方式
 
-使用 PowerShell（curl 在 Windows 中文编码有问题）：
+使用 pwsh 7（默认 UTF-8；curl 在 Windows 中文编码有问题）：
 
-```powershell
+```pwsh
 $Headers = @{ "PRIVATE-TOKEN" = $env:GITLAB_TOKEN; "Content-Type" = "application/json" }
 $Base = "http://gitlab.roboticplus.com:2022/api/v4/projects/305"
 ```

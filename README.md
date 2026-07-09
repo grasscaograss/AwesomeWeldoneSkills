@@ -6,7 +6,7 @@ Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) Marketpl
 
 Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以在 Claude Code 或 Codex 中**浏览、搜索、一键安装**所有 skills，无需手动复制文件。
 
-本仓库包含 30 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作等。
+本仓库包含 53 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作、知识库管理、工程方法论、开发方法论等。
 
 ---
 
@@ -208,6 +208,45 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 |-------|-------------|
 | [DDD-review](DDD-review/) | Martin Fowler 代码审查视角：代码异味识别、重构手法建议、可读性评估 |
 | [code-simplify](code-simplify/) | 以减法为先的代码审查：识别过度设计、冗余代码、命名晦涩、注释失衡 |
+
+### Knowledge Management - 知识库管理
+
+| Skill | Description |
+|-------|-------------|
+| [archive](archive/) | 多入口查询项目知识库：关键词搜索、领域浏览、术语查询、时间线检索 |
+| [archive-import](archive-import/) | 导入外部文档到知识库（records 模式或 knowledge 模式） |
+| [archive-session](archive-session/) | 会话归档：收集变更、生成 record、提取知识并按领域路由 |
+| [knowledge-reorg](knowledge-reorg/) | 知识库领域级重组：健康检查、合并/拆分/移动/合并碎片 |
+| [periodic-review](periodic-review/) | 月度/年度项目回顾，按领域追踪知识演进 |
+
+### Matt Pocock - 工程方法论
+
+| Skill | Description |
+|-------|-------------|
+| [ask-matt](ask-matt/) | 路由器：询问当前场景适合哪种 skill 或流程 |
+| [codebase-design](codebase-design/) | 深模块设计共享词汇表，辅助接口与可测试性决策 |
+| [diagnosing-bugs](diagnosing-bugs/) | 纪律化诊断循环：复现→最小化→假设→埋点→修复→回归 |
+| [domain-modeling](domain-modeling/) | 构建和打磨领域模型，统一术语并记录架构决策 |
+| [grill-me](grill-me/) | 针对计划的 relentless 追问，逐个分支理解决策树 |
+| [grilling](grilling/) | 计划/设计压力测试追问，匹配 grill 触发词 |
+| [grill-with-docs](grill-with-docs/) | 针对计划的 relentless 追问，过程中内联生成 ADR 和术语表 |
+| [handoff](handoff/) | 将会话压缩为交接文档供下一个 agent 接续 |
+| [implement](implement/) | 基于 PRD 或一组 issue 实现一项工作 |
+| [improve-codebase-architecture](improve-codebase-architecture/) | 扫描深化机会，生成可视化 HTML 报告，再逐个 grill 落实 |
+| [prototype](prototype/) | 一次性原型验证：终端逻辑或 UI 变体切换 |
+| [setup-matt-pocock-skills](setup-matt-pocock-skills/) | 配置 issue tracker、triage 标签词表和领域文档布局 |
+| [teach](teach/) | 在工作区内向用户教授新技能或概念 |
+| [tdd](tdd/) | 测试驱动开发：红-绿-重构循环 |
+| [to-issues](to-issues/) | 将计划/PRD 拆解为可独立认领的 issue（垂直切片） |
+| [to-prd](to-prd/) | 从会话上下文生成 PRD 并发布 |
+| [triage](triage/) | 将 issue/PR 推过 triage 状态机，产出 agent 就绪简报 |
+| [writing-great-skills](writing-great-skills/) | skill 写作参考：让 skill 可预测的词汇与原则 |
+
+### Superpowers - 开发方法论
+
+| Skill | Description |
+|-------|-------------|
+| [superpowers](superpowers/) | 完整的 agent 开发方法论技能集：设计→计划→实现→审查→交付（源自 Jesse Vincent superpowers） |
 
 ---
 

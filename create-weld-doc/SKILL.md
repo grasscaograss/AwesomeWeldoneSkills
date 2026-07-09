@@ -56,9 +56,9 @@ metadata:
 1. 将消息内容写入临时文件（使用 Write 工具）：
    - 路径：`.claude/tmp/msg.txt`
 
-2. 执行 PowerShell 脚本（使用 Bash 工具）：
+2. 执行 pwsh 7 脚本（默认 UTF-8）：
    ```bash
-   powershell -ExecutionPolicy Bypass -File ".claude/skills/feishu-webhook/scripts/feishu-webhook.ps1" -Webhook "912c3ff9626dc8fd25a16fd9d102f629" -MsgFile ".claude/tmp/msg.txt"
+   pwsh -NoProfile -ExecutionPolicy Bypass -File ".claude/skills/feishu-webhook/scripts/feishu-webhook.ps1" -Webhook "912c3ff9626dc8fd25a16fd9d102f629" -MsgFile ".claude/tmp/msg.txt"
    ```
 
 3. 删除临时文件：

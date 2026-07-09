@@ -83,5 +83,5 @@ and the `obj/` generated `.cs` files if you need the exact generated C# code.
 ## Index Maintenance
 
 The file `references/type-index.md` is a pre-generated index of all public types.
-If the user reports that types are missing or outdated, run the PowerShell script:
-`scripts/update-index.ps1` to regenerate it.
+If the user reports that types are missing or outdated, run the index script with pwsh 7 (UTF-8 default):
+`pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/update-index.ps1`

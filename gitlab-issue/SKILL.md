@@ -2,7 +2,7 @@
 name: gitlab-issue
 description: 与开发人员协作创建 GitLab Issue。触发场景：(1) 用户说"建个 issue"、"提个 bug"、"记录一个问题"、"有个新需求"；(2) 用户描述了一个问题或需求并要求记录到 GitLab
 license: Apache-2.0
-allowed-tools: PowerShell
+allowed-tools: Bash
 metadata:
   author: weldone-team
   version: "1.0.0"
@@ -23,13 +23,13 @@ metadata:
 
 ## Token 检查（步骤 0）
 
-每次开始工作前，使用 **PowerShell 工具**（不要用 Bash 工具）检查 `$env:GITLAB_TOKEN` 是否已设置：
+每次开始工作前，使用 **pwsh 7 会话**（默认 UTF-8）检查 `$env:GITLAB_TOKEN` 是否已设置：
 
-```powershell
+```pwsh
 if ($env:GITLAB_TOKEN) { 'Token exists' } else { 'Token not set' }
 ```
 
-> ⚠️ **必须使用 PowerShell 工具**，不要使用 Bash 工具。Bash 工具底层是 `/usr/bin/bash`，不认识 `$env:VAR` 语法；用 `powershell -Command` 包装也不行，双引号内 `$env:` 会被 bash 先展开导致变量名损坏。
+> ⚠️ **必须使用 pwsh 7**。如果通过外层 shell 调用，使用 `pwsh -NoProfile -Command` 并用单引号包住脚本，避免 `$env:` 被外层 shell 展开。
 
 - **已设置**（输出 `Token exists`）→ 直接进入步骤 1
 - **未设置** → 引导用户创建并配置：
@@ -37,8 +37,8 @@ if ($env:GITLAB_TOKEN) { 'Token exists' } else { 'Token not set' }
 1. 告诉用户：当前未配置 GitLab Token，需要创建一个才能操作 Issue
 2. 引导用户打开 `http://gitlab.roboticplus.com:2022/-/profile/personal_access_tokens`，创建一个 Personal Access Token，勾选 `api` 权限
 3. 让用户在终端执行以下命令设置环境变量（永久生效）：
-   ```powershell
-   # 在 PowerShell profile 中持久化
+   ```pwsh
+   # 在 pwsh 7 profile 中持久化
    Add-Content -Path $PROFILE -Value "`n`$env:GITLAB_TOKEN = '<用户粘贴的token>'"
    $env:GITLAB_TOKEN = '<用户粘贴的token>'
    ```
@@ -168,7 +168,7 @@ if ($env:GITLAB_TOKEN) { 'Token exists' } else { 'Token not set' }
 
 用户确认后，通过 API 创建：
 
-```powershell
+```pwsh
 $Headers = @{ "PRIVATE-TOKEN" = $Token; "Content-Type" = "application/json" }
 $Body = @{
     title = "{标题}"

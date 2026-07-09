@@ -1,9 +1,15 @@
+#Requires -Version 7.0
+
 param(
     [string]$RepoRoot = "D:\weldone",
     [string]$ConfigPath = "src/Weldone/appsettings.json"
 )
 
 $ErrorActionPreference = "Stop"
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$OutputEncoding = [Console]::OutputEncoding
+$PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 $repo = Resolve-Path -LiteralPath $RepoRoot
 Set-Location -LiteralPath $repo

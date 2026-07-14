@@ -126,6 +126,16 @@
       "description": "Weldone 数据库迁移守护：检查 EF Core 迁移状态并在 migrate 前备份数据库"
     },
     {
+      "name": "robimweld-release-check",
+      "source": "./robimweld-release-check",
+      "description": "校验 RobimWeld.Algorithm 与 RobimWeld.Devices 的版本、tag 和 NuGet feed 发布一致性"
+    },
+    {
+      "name": "robimweld-source-debug",
+      "source": "./robimweld-source-debug",
+      "description": "切换 RobimWeld 源码调试模式，将包引用切换为同级源码项目并验证构建"
+    },
+    {
       "name": "weldone-mapmatrix-domain-knowledge",
       "source": "./weldone-mapmatrix-domain-knowledge",
       "description": "MapMatrix 扫描校准模块领域知识"

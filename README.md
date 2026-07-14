@@ -6,7 +6,7 @@ Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) Marketpl
 
 Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以在 Claude Code 或 Codex 中**浏览、搜索、一键安装**所有 skills，无需手动复制文件。
 
-本仓库包含 53 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作、知识库管理、工程方法论、开发方法论等。
+本仓库包含 59 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作、知识库管理、工程方法论、开发方法论等。
 
 ---
 
@@ -153,6 +153,8 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 | [weld-plan-debug](weld-plan-debug/) | 焊接规划失败调试工作流 |
 | [weldone-hybrid-seam-replay-debug](weldone-hybrid-seam-replay-debug/) | Weldone 混合焊缝 replay 包调试：单机/双机重构、LaserPoint RANSAC、Arc 拟合阈值与弱诊断 |
 | [weldone-db-migration](weldone-db-migration/) | Weldone 数据库迁移守护：EF Core migration 检查、update-db 优先、migrate 前备份 |
+| [robimweld-release-check](robimweld-release-check/) | RobimWeld 版本、tag 与 NuGet feed 发布一致性校验 |
+| [robimweld-source-debug](robimweld-source-debug/) | RobimWeld 源码调试模式切换与构建验证 |
 
 ### Git & GitLab
 

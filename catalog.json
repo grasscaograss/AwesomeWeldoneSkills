@@ -215,20 +215,6 @@
       "author": "weldone-team"
     },
     {
-      "name": "robimweld-release-check",
-      "description": "校验 RobimWeld.Algorithm 与 RobimWeld.Devices 的版本、tag 和 NuGet feed 发布一致性",
-      "category": "development-workflow",
-      "version": "1.0.0",
-      "author": "weldone-team"
-    },
-    {
-      "name": "robimweld-source-debug",
-      "description": "切换 RobimWeld 源码调试模式，将包引用切换为同级源码项目并验证构建",
-      "category": "development-workflow",
-      "version": "1.0.0",
-      "author": "weldone-team"
-    },
-    {
       "name": "world-to-robot",
       "description": "世界坐标到机器人坐标的正向变换",
       "category": "robotics",

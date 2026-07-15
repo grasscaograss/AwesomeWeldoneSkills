@@ -8,11 +8,12 @@ Run a `/grilling` session, using the `/domain-modeling` skill.
 
 ## This repo's knowledge base
 
-This project keeps its domain language in an `archive/` knowledge base, not a bare root `CONTEXT.md`. `/domain-modeling` is already wired to write here:
+This project is a **multi-context monolith** — one coupled codebase whose domain splits into a few bounded contexts. `/domain-modeling` writes vocabulary, decisions, and knowledge along that context axis under `archive/`:
 
-- **Glossary** → `archive/CONTEXT.md` (terminology only — no implementation details)
-- **Decisions** → `docs/adr/`
-- **Session records** → `archive/records/`, **domain knowledge** → `archive/knowledge/` (indexed by `archive/INDEX.md`)
+- **Context glossaries** → `archive/contexts/<ctx>/CONTEXT.md` (one per context; terms only — no implementation details)
+- **Context index** → `archive/CONTEXT-MAP.md` (which contexts exist, their shared kernels, and relationships)
+- **System decisions** → `docs/adr/` (context-scoped ADRs may live in `archive/contexts/<ctx>/docs/adr/`)
+- **Sub-domain knowledge** → `archive/contexts/<ctx>/knowledge/<domain>/`, **session records** → `archive/records/`, both indexed by `archive/INDEX.md`
 
 ## After the session
 
@@ -26,8 +27,8 @@ Once the plan is settled and code is written, fold the results back into the arc
 ```
 /grill-with-docs → coding → /archive-session → /periodic-review
        ↓                            ↓                    ↓
-  archive/CONTEXT.md          /archive-import        /knowledge-reorg
-  docs/adr/             (import external docs)   (restructure knowledge)
-                                                         ↓
+ archive/contexts/<ctx>/       /archive-import        /knowledge-reorg
+   CONTEXT.md             (import external docs)   (restructure knowledge)
+ archive/CONTEXT-MAP.md                                 ↓
                                                   /archive (query)
 ```

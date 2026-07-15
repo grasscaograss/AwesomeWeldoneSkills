@@ -44,42 +44,42 @@ description: "Import external documents into the project archive. Two modes: →
 Knowledge 模式采用三步工作流：**分析设计 → 并行写入 → 验证更新**。
 核心区别在于使用 TaskCreate 为每个领域启动独立 Agent 并行执行，而非串行处理。
 
-### 领域文件夹参考
+### 上下文→领域结构参考
 
 ```
-archive/knowledge/
-├── dual-arm/          ← 双臂系统
-├── weld-template/     ← 焊接模板
-├── weld-seam/         ← 焊缝规划
-├── coarse-positioning/ ← 粗定位
-├── scanning/          ← 精定位与扫描
-├── capacity/          ← 产能统计
-├── weld-tracking/     ← 焊接跟踪
-├── coordinate/        ← 坐标与矩阵
-├── workflow/          ← 状态机与工作流
-├── frontend/          ← 前端界面
-├── device-robot/      ← 设备与机器人
-├── tools/             ← 工具与其他
+archive/contexts/
+├── weld-core/knowledge/        ← 共享内核 WeldSeam/WSG
+│   ├── weld-seam/   weld-template/   wsg-merge/
+│   ├── transition-line/         dual-arm/
+├── robotics/knowledge/         ← 共享内核 Calculator/坐标
+│   ├── coordinate/   coarse-positioning/
+├── orchestration/knowledge/    ← 共享内核 Executor/状态
+│   ├── workflow/   scanning/
+├── peripheral/knowledge/       ← 弱共享
+│   ├── frontend/   device-robot/   capacity/
+│   ├── weld-tracking/   tools/
 ```
+
+（详见 `archive/CONTEXT-MAP.md`）
 
 ### 第一步：分析源文档，设计领域结构
 
 1. **读取所有源文档** — 用 Glob 找到所有文件，逐个 Read
 2. **提取关键概念、事实、规则、模式** — 从每份文档中抽取出独立的知识单元
-3. **与现有知识对比重叠** — Read `archive/knowledge/` 下所有现有文件，标记：
+3. **与现有知识对比重叠** — Read `archive/contexts/*/knowledge/` 下所有现有文件，标记：
    - **new**：全新知识，无重叠
    - **merge**：与现有文件有重叠，需要合并
    - **skip**：已被现有文件完全覆盖
-4. **按领域分组** — 将知识单元归入上述领域文件夹，确定每个文件的：
+4. **按上下文→领域分组** — 先定上下文，再定子领域，将知识单元归入 `archive/contexts/<ctx>/knowledge/<domain>/`，确定每个文件的：
    - 源文件归属（哪些源文档的内容合并到此文件）
    - 与现有知识文件的合并关系
 5. **向用户展示结构方案** — 输出分组表，等待用户确认：
 
 ```
-| 领域文件夹 | 新文件 | 合并到已有文件 | 跳过 |
+| 上下文/领域 | 新文件 | 合并到已有文件 | 跳过 |
 |-----------|--------|--------------|------|
-| dual-arm/ | arc-safety.md | pipeline.md (追加§3) | — |
-| scanning/ | laser-calib.md | — | vision.md 已覆盖 |
+| weld-core/dual-arm/ | arc-safety.md | pipeline.md (追加§3) | — |
+| orchestration/scanning/ | laser-calib.md | — | vision.md 已覆盖 |
 ```
 
 用户确认后进入第二步。
@@ -88,9 +88,9 @@ archive/knowledge/
 
 1. **创建目标文件夹**（如尚未存在）
 
-2. **为每个领域文件夹启动一个独立 Agent**（通过 TaskCreate），每个 agent 接收以下信息：
+2. **为每个上下文启动一个独立 Agent**（通过 TaskCreate），每个 agent 接收以下信息：
 
-   - **领域名称**和文件夹路径（如 `archive/knowledge/dual-arm/`）
+   - **上下文/领域名称**和文件夹路径（如 `archive/contexts/weld-core/knowledge/dual-arm/`）
    - **要读取的源文件列表**（绝对路径）
    - **已有知识文件的迁移需求**（如需合并，列出目标文件和合并策略）
    - **知识文件格式规范**（见下方）
@@ -112,8 +112,8 @@ archive/knowledge/
 你是知识库整理 agent。请完成以下任务：
 
 ## 领域
-- 名称：<领域名称>
-- 目标路径：<绝对路径，如 C:\...\archive\knowledge\dual-arm\>
+- 名称：<上下文/领域>
+- 目标路径：<绝对路径，如 C:\...\archive\contexts\weld-core\knowledge\dual-arm\>
 
 ## 源文件
 请读取以下文件并提取知识：
@@ -169,10 +169,10 @@ metadata:
    - [slug](knowledge/<领域>/slug.md) — 一句话摘要
    ```
 3. **清理迁移的旧文件** — 如果源文档是从项目内其他位置导入的，询问用户是否删除原文件
-4. **检查新术语** — 扫描新生成的知识文件，提取可能需要加入 `archive/CONTEXT.md` 的术语：
+4. **检查新术语** — 扫描新生成的知识文件，提取可能需要加入上下文术语表的术语：
    - 列出候选术语和定义
    - 请用户确认
-   - 按 archive/CONTEXT.md 现有格式写入（术语名、定义、`_Avoid_` 提示）
+   - 按所属上下文 `archive/contexts/<ctx>/CONTEXT.md` 现有格式写入（术语名、定义、`_Avoid_` 提示）
 
 ### 知识文件格式（规范）
 

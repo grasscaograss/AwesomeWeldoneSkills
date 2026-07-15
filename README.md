@@ -6,7 +6,7 @@ Weldone 焊接机器人团队的 [Agent Skills](https://agentskills.io) Marketpl
 
 Marketplace 是一个集中管理 Agent Skills 的仓库。注册后，你可以在 Claude Code 或 Codex 中**浏览、搜索、一键安装**所有 skills，无需手动复制文件。
 
-本仓库包含 59 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作、知识库管理、工程方法论、开发方法论等。
+本仓库包含 64 个 skills，覆盖焊接领域知识、机器人坐标变换、开发工作流、GitLab 操作、飞书协作、知识库管理、工程方法论、开发方法论等。
 
 ---
 
@@ -155,6 +155,10 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 | [weldone-db-migration](weldone-db-migration/) | Weldone 数据库迁移守护：EF Core migration 检查、update-db 优先、migrate 前备份 |
 | [robimweld-release-check](robimweld-release-check/) | RobimWeld 版本、tag 与 NuGet feed 发布一致性校验 |
 | [robimweld-source-debug](robimweld-source-debug/) | RobimWeld 源码调试模式切换与构建验证 |
+| [weldone-animation](weldone-animation/) | 用 Weldone.Cli gen-ls 在 headless 环境复现 PF+粗定位→路径规划→生成 Fanuc LS 全链路，脱离 GUI 验证规划结果与外部轴行程 |
+| [add-diag-instrumentation](add-diag-instrumentation/) | 为 .NET 代码添加 EventSource 结构化诊断事件源 + dotnet-monitor 崩溃自动 dump，运行时动态开启、零开销、无需发版 |
+| [read-diag-captures](read-diag-captures/) | 读取并解读 Weldone .NET 动态诊断采集产物（nettrace/dmp/csv/speedscope），把 EventID 翻译成事件名与参数含义 |
+| [weldone-project-logs](weldone-project-logs/) | 读取 Weldone 项目运行日志（Serilog）与设备/规划配置 JSON 辅助排障，基于 %APPDATA% 动态定位当前激活项目 |
 
 ### Git & GitLab
 
@@ -226,22 +230,26 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 | Skill | Description |
 |-------|-------------|
 | [ask-matt](ask-matt/) | 路由器：询问当前场景适合哪种 skill 或流程 |
+| [code-review](code-review/) | 两轴审查自固定点以来的改动：Standards（编码规范 + Fowler 代码异味基线）与 Spec（是否忠实实现 issue/PRD），并行子 agent 执行 |
 | [codebase-design](codebase-design/) | 深模块设计共享词汇表，辅助接口设计、深化机会与可测试性决策 |
 | [diagnosing-bugs](diagnosing-bugs/) | 纪律化诊断循环：复现→最小化→假设→埋点→修复→回归 |
 | [domain-modeling](domain-modeling/) | 构建和打磨项目领域模型，统一领域术语并记录架构决策 |
 | [grill-me](grill-me/) | 针对计划或设计的 relentless 追问，逐个分支理解决策树 |
-| [grilling](grilling/) | 计划/设计压力测试追问，匹配 grill 触发词 |
+| [grilling](grilling/) | 对计划/决策/想法的 relentless 追问，匹配 grill 触发词，达成共识前不执行 |
 | [grill-with-docs](grill-with-docs/) | 针对计划的 relentless 追问，过程中内联生成 ADR 和术语表 |
 | [handoff](handoff/) | 将当前会话压缩为交接文档，供下一个 agent 接续工作 |
-| [implement](implement/) | 基于 PRD 或一组 issue 实现一项工作 |
+| [implement](implement/) | 基于 spec 或一组 ticket 实现一项工作（内部驱动 /tdd，收尾跑 /code-review） |
 | [improve-codebase-architecture](improve-codebase-architecture/) | 扫描代码库寻找深化机会，生成可视化 HTML 报告，再逐个 grill 落实 |
-| [prototype](prototype/) | 构建一次性原型验证设计：终端应用（逻辑/状态）或 UI 变体切换 |
+| [prototype](prototype/) | 构建一次性原型回答设计问题：验证状态/逻辑模型，或探索 UI 形态 |
+| [research](research/) | 后台 agent 调研：对照一手原始资料，产出带引用的 Markdown 文件 |
+| [resolving-merge-conflicts](resolving-merge-conflicts/) | 解决进行中的 git merge/rebase 冲突：理解双方意图、逐块合并、跑检查、完成合并 |
 | [setup-matt-pocock-skills](setup-matt-pocock-skills/) | 配置工程 skills 的 issue tracker、triage 标签词表和领域文档布局 |
 | [teach](teach/) | 在工作区内向用户教授新技能或概念 |
-| [tdd](tdd/) | 测试驱动开发：红-绿-重构循环，垂直切片 tracer bullet 工作流 |
-| [to-issues](to-issues/) | 将计划/spec/PRD 拆解为可独立认领的 issue（垂直切片 tracer bullet） |
-| [to-prd](to-prd/) | 从当前会话上下文生成 PRD 并发布到项目 issue tracker |
+| [tdd](tdd/) | 测试驱动开发：红-绿循环（重构已移至 code-review），垂直切片 tracer bullet 工作流 |
+| [to-spec](to-spec/) | 把当前对话综合成一份 spec 并发布到项目 issue tracker——不做访谈，只提炼已讨论的内容 |
+| [to-tickets](to-tickets/) | 将计划/spec/对话拆成一组 tracer-bullet ticket，各自声明 blocking edges，发布到 tracker |
 | [triage](triage/) | 将 issue 和外部 PR 推过 triage 状态机：分类、验证、必要时 grill，产出 agent 就绪简报 |
+| [wayfinder](wayfinder/) | 把超大块工作规划成 issue tracker 上一张共享的决策 ticket 地图，逐个解决直到路径清晰 |
 | [writing-great-skills](writing-great-skills/) | skill 写作参考：让 skill 可预测的词汇与原则 |
 
 ### Superpowers - 开发方法论

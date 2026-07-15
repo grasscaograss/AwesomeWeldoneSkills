@@ -9,26 +9,45 @@ description: 会话归档。收集变更、生成 record、检测可复用知识
 
 用户完成一轮设计+实现后，Agent 收集变更、生成 record、提取可复用知识、按领域路由写入，更新索引。
 
-## 领域路由表
+## 上下文→领域路由表
 
-知识文件写入前，必须根据主题判断归入哪个领域文件夹。下表按匹配优先级排列（优先匹配更具体的领域）：
+知识文件写入前，先判断归入哪个**上下文**，再定位上下文下的**子领域**。路径形如 `archive/contexts/<ctx>/knowledge/<domain>/`。下表按上下文分组，组内按匹配优先级排列（优先匹配更具体的领域）：
 
-| 领域文件夹 | 含义 | 典型关键词 |
+### weld-core/（共享内核 `WeldSeam`、`WSG`）
+
+| 子领域 | 含义 | 典型关键词 |
 |---|---|---|
-| `dual-arm/` | 双臂系统 | DualArm、双臂协同、Leader/Follower、起收弧时序、双机过渡段 |
-| `weld-template/` | 焊接模板 | WeldTemplate、模板匹配、包角方向、操作日志 |
 | `weld-seam/` | 焊缝规划 | WeldSeam、规划过滤、ILIdx 分组、后处理、几何类型、PoseTValue |
-| `coarse-positioning/` | 粗定位 | CoarseVision、粗定位、龙门补偿矩阵、排单初始化 |
-| `scanning/` | 精定位与扫描 | ScanTarget、PrecisePositioning、VCM、推扫、拍照点、FineLoc |
-| `capacity/` | 产能统计 | 产能统计、清枪计数、操作日志事件 |
-| `weld-tracking/` | 焊接跟踪 | WeldTracking、TrackingMode、焊缝跟踪传感器 |
+| `wsg-merge/` | WSG 合并 | WeldSeamGroup、MergedSources、MergeWsgs、对称打断 |
+| `transition-line/` | 过渡段 | TransitionLine、PoseRef、ArmTransitionState、三段式过渡 |
+| `weld-template/` | 焊接模板 | WeldTemplate、模板匹配、包角方向、操作日志 |
+| `dual-arm/` | 双臂系统 | DualArm、双臂协同、Leader/Follower、起收弧时序、双机过渡段 |
+
+### robotics/（共享内核 `Calculator`、坐标）
+
+| 子领域 | 含义 | 典型关键词 |
+|---|---|---|
 | `coordinate/` | 坐标与矩阵 | Coordinate、MapMatrix、标定、PhantomType、IRobotCoordinateService |
+| `coarse-positioning/` | 粗定位 | CoarseVision、粗定位、龙门补偿矩阵、排单初始化 |
+
+### orchestration/（共享内核 `Executor`、状态）
+
+| 子领域 | 含义 | 典型关键词 |
+|---|---|---|
 | `workflow/` | 状态机与工作流 | StateMachine、FSM、PoseRole、TransitionPlan、工件持久化、排单 |
+| `scanning/` | 精定位与扫描 | ScanTarget、PrecisePositioning、VCM、推扫、拍照点、FineLoc |
+
+### peripheral/（弱共享）
+
+| 子领域 | 含义 | 典型关键词 |
+|---|---|---|
 | `frontend/` | 前端界面 | Blazor、React、Three.js、面板、渲染、UI 交互 |
 | `device-robot/` | 设备与机器人 | Robot、Fanuc、FTP、TCP、设备配置 |
+| `capacity/` | 产能统计 | 产能统计、清枪计数、操作日志事件 |
+| `weld-tracking/` | 焊接跟踪 | WeldTracking、TrackingMode、焊缝跟踪传感器 |
 | `tools/` | 工具与其他 | CLI、几何参数、空气墙、文件浏览器、不属于以上任何领域的通用工具 |
 
-**路由规则**：一个知识条目只归入一个领域。如果跨领域，拆成多个知识文件。无法判断时归入 `tools/`。
+**路由规则**：一个知识条目只归入一个上下文/领域。如果跨上下文，拆成多个知识文件（各归各的上下文）。无法判断上下文时归入 `peripheral/tools/`。上下文边界模糊时（如 wsg-merge 同时引 WeldSeam/Executor/Calculator），归入语义主轴所属上下文（wsg-merge → weld-core），并在交叉引用里点出其它上下文。
 
 ## Workflow
 
@@ -37,7 +56,7 @@ description: 会话归档。收集变更、生成 record、检测可复用知识
 并行执行以下操作：
 
 - `git log --oneline` 自上次 record 日期（或用户指定起点）
-- `git diff archive/CONTEXT.md` 查看术语变更
+- `git diff archive/contexts/*/CONTEXT.md` 查看术语变更
 - 检查 `docs/adr/` 是否有新增或修改的 ADR
 - 从 git diff 总结关键文件变更
 
@@ -100,8 +119,8 @@ Record 模板（保持不变）：
 
 ```
 拟产出知识文件：
-  [新建] archive/knowledge/coordinate/phantom-type-usage.md — Phantom-type 坐标标签的使用规则
-  [更新] archive/knowledge/workflow/transition-paradigm.md — 补充 TargetPoseRef 边界情况
+  [新建] archive/contexts/robotics/knowledge/coordinate/phantom-type-usage.md — Phantom-type 坐标标签的使用规则
+  [更新] archive/contexts/orchestration/knowledge/workflow/transition-paradigm.md — 补充 TargetPoseRef 边界情况
 ```
 
 ### 5. 生成知识文件
@@ -168,8 +187,8 @@ metadata:
 
 | 路径 | 用途 |
 |---|---|
-| `archive/records/` | 会话 record，按日期命名 |
-| `archive/knowledge/<domain>/` | 领域知识文件，按路由表分发 |
+| `archive/records/` | 会话 record，按日期命名（跨上下文） |
+| `archive/contexts/<ctx>/knowledge/<domain>/` | 子领域知识文件，按上下文→领域路由表分发 |
 | `archive/INDEX.md` | 总索引 |
-| `archive/CONTEXT.md` | 术语表 |
-| `docs/adr/` | 架构决策记录 |
+| `archive/contexts/<ctx>/CONTEXT.md` | 各上下文术语表；`archive/CONTEXT-MAP.md` 为上下文索引 |
+| `docs/adr/` | 架构决策记录（系统级） |

@@ -4,46 +4,47 @@ How the engineering skills should consume this repo's domain documentation when 
 
 ## Before exploring, read these
 
-- **`archive/CONTEXT.md`** — the project glossary, or
-- **`CONTEXT-MAP.md`** at the repo root if it exists — it points at one `CONTEXT.md` per context. Read each one relevant to the topic.
-- **`docs/adr/`** — read ADRs that touch the area you're about to work in. In multi-context repos, also check `src/<context>/docs/adr/` for context-scoped decisions.
+- **`archive/CONTEXT-MAP.md`** — the multi-context index: which contexts exist, where each lives, and how they relate (shared kernels, dependencies). Read it first to find the context(s) relevant to the topic.
+- **`archive/contexts/<ctx>/CONTEXT.md`** — the glossary for the relevant context(s). Read each one relevant to the topic.
+- **`docs/adr/`** — system-wide ADRs. For context-scoped decisions, also check `archive/contexts/<ctx>/docs/adr/` if it exists.
 
-If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates `archive/CONTEXT.md` lazily when terms or decisions actually get resolved.
+If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
 
-## File structure
+## File structure — contexts nest knowledge
 
-Single-context repo (most repos — this repo):
+This repo is a **multi-context monolith**: one coupled codebase, but its domain splits into a few bounded contexts, each with its own glossary and sub-domain knowledge. The `archive/` knowledge base is organised along that context axis:
 
 ```
 /
 ├── archive/
-│   └── CONTEXT.md   ← glossary lives at archive/CONTEXT.md
-├── docs/adr/
-│   ├── 0001-event-sourced-orders.md
-│   └── 0002-postgres-for-write-model.md
+│   ├── CONTEXT-MAP.md                 ← context index + shared kernels + relationships
+│   ├── contexts/
+│   │   └── <context-slug>/            ← e.g. weld-core
+│   │       ├── CONTEXT.md             ← this context's glossary (terms only)
+│   │       └── knowledge/
+│   │           └── <domain-slug>/     ← sub-domain knowledge files
+│   ├── records/                       ← session records (cross-context)
+│   ├── reviews/                       ← periodic reviews (cross-context)
+│   └── INDEX.md                       ← global index
+├── docs/
+│   └── adr/                           ← system-wide decisions
 └── src/
 ```
 
-Multi-context repo (presence of `CONTEXT-MAP.md` at the root):
+The canonical contexts (see `CONTEXT-MAP.md` for the live list) and their shared kernels:
 
-```
-/
-├── CONTEXT-MAP.md
-├── docs/adr/                          ← system-wide decisions
-└── src/
-    ├── ordering/
-    │   ├── CONTEXT.md
-    │   └── docs/adr/                  ← context-specific decisions
-    └── billing/
-        ├── CONTEXT.md
-        └── docs/adr/
-```
+| Context | Owns | Shared kernel |
+|---|---|---|
+| `weld-core` | weld-seam, wsg-merge, transition-line, weld-template | `WeldSeam`, `WSG` |
+| `robotics` | coordinate, coarse-positioning | `Calculator`, coordinates |
+| `orchestration` | workflow (FSM), scanning | `Executor`, state |
+| `peripheral` | frontend, device-robot, capacity, tools | (weak) |
 
 ## Use the glossary's vocabulary
 
-When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in `archive/CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids.
+When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in the owning context's `CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids.
 
-If the concept you need isn't in the glossary yet, that's a signal — either you're inventing language the project doesn't use (reconsider) or there's a real gap (note it for `/domain-modeling`).
+If the concept you need isn't in any context glossary yet, that's a signal — either you're inventing language the project doesn't use (reconsider) or there's a real gap (note it for `/domain-modeling`).
 
 ## Flag ADR conflicts
 

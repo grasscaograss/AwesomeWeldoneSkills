@@ -229,6 +229,13 @@
       "author": "weldone-team"
     },
     {
+      "name": "weldone-animation",
+      "description": "用 Weldone.Cli gen-ls 在 headless 环境复现 PF+粗定位→路径规划→生成 Fanuc LS 全链路，脱离 GUI 验证规划结果与外部轴行程",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
       "name": "world-to-robot",
       "description": "世界坐标到机器人坐标的正向变换",
       "category": "robotics",
@@ -261,28 +268,28 @@
       "description": "多入口查询项目知识库：关键词搜索、领域浏览、术语查询、Records 时间线检索",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "Matt Pocock"
+      "author": "weldone-team"
     },
     {
       "name": "archive-import",
       "description": "导入外部文档到项目知识库，支持 records 模式（格式转换）和 knowledge 模式（深度整理）",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "Matt Pocock"
+      "author": "weldone-team"
     },
     {
       "name": "archive-session",
       "description": "会话归档：收集变更、生成 record、检测可复用知识并按领域路由写入知识库",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "Matt Pocock"
+      "author": "weldone-team"
     },
     {
       "name": "knowledge-reorg",
       "description": "知识库领域级重组：健康检查、合并/拆分/移动领域、合并碎片文件",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "Matt Pocock"
+      "author": "weldone-team"
     },
     {
       "name": "diagnosing-bugs",
@@ -324,11 +331,11 @@
       "description": "生成月度/年度项目回顾，按领域追踪知识演进和健康度",
       "category": "knowledge-management",
       "version": "1.0.0",
-      "author": "Matt Pocock"
+      "author": "weldone-team"
     },
     {
       "name": "prototype",
-      "description": "构建一次性原型验证设计：终端应用（逻辑/状态）或 UI 变体切换",
+      "description": "构建一次性原型回答设计问题：验证状态/逻辑模型，或探索 UI 形态",
       "category": "matt-pocock",
       "version": "1.0.0",
       "author": "Matt Pocock"
@@ -342,14 +349,7 @@
     },
     {
       "name": "tdd",
-      "description": "测试驱动开发：红-绿-重构循环，垂直切片 tracer bullet 工作流",
-      "category": "matt-pocock",
-      "version": "1.0.0",
-      "author": "Matt Pocock"
-    },
-    {
-      "name": "to-prd",
-      "description": "从当前会话上下文生成 PRD 并发布到项目 issue tracker",
+      "description": "测试驱动开发：红-绿循环（重构已移至 code-review），垂直切片 tracer bullet 工作流",
       "category": "matt-pocock",
       "version": "1.0.0",
       "author": "Matt Pocock"
@@ -377,14 +377,14 @@
     },
     {
       "name": "grilling",
-      "description": "计划/设计压力测试追问，匹配 grill 触发词",
+      "description": "对计划/决策/想法的 relentless 追问，匹配 grill 触发词，达成共识前不执行",
       "category": "matt-pocock",
       "version": "1.0.0",
       "author": "Matt Pocock"
     },
     {
       "name": "implement",
-      "description": "基于 PRD 或一组 issue 实现一项工作",
+      "description": "基于 spec 或一组 ticket 实现一项工作（内部驱动 /tdd，收尾跑 /code-review）",
       "category": "matt-pocock",
       "version": "1.0.0",
       "author": "Matt Pocock"
@@ -392,13 +392,6 @@
     {
       "name": "teach",
       "description": "在工作区内向用户教授新技能或概念",
-      "category": "matt-pocock",
-      "version": "1.0.0",
-      "author": "Matt Pocock"
-    },
-    {
-      "name": "to-issues",
-      "description": "将计划/spec/PRD 拆解为可独立认领的 issue（垂直切片 tracer bullet）",
       "category": "matt-pocock",
       "version": "1.0.0",
       "author": "Matt Pocock"
@@ -413,6 +406,48 @@
     {
       "name": "writing-great-skills",
       "description": "skill 写作参考：让 skill 可预测的词汇与原则",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "code-review",
+      "description": "两轴审查自固定点以来的改动：Standards（编码规范 + Fowler 代码异味基线）与 Spec（是否忠实实现 issue/PRD），并行子 agent 执行",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "research",
+      "description": "后台 agent 调研：对照一手原始资料，产出带引用的 Markdown 文件",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "resolving-merge-conflicts",
+      "description": "解决进行中的 git merge/rebase 冲突：理解双方意图、逐块合并、跑检查、完成合并",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "to-tickets",
+      "description": "将计划/spec/当前对话拆成一组 tracer-bullet ticket，各自声明 blocking edges，发布到配置的 tracker（本地一文件一 ticket 写文本边，或真实 tracker 的原生 blocking 链接）",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "to-spec",
+      "description": "把当前对话综合成一份 spec 并发布到项目 issue tracker——不做访谈，只提炼已讨论的内容",
+      "category": "matt-pocock",
+      "version": "1.0.0",
+      "author": "Matt Pocock"
+    },
+    {
+      "name": "wayfinder",
+      "description": "把超大块工作（超出单 agent 会话容量）规划成 issue tracker 上一张共享的决策 ticket 地图，逐个解决直到通往目的地的路径清晰",
       "category": "matt-pocock",
       "version": "1.0.0",
       "author": "Matt Pocock"

@@ -304,6 +304,26 @@
       "name": "to-spec",
       "source": "./to-spec",
       "description": "把当前对话综合成一份 spec 并发布到项目 issue tracker——不做访谈，只提炼已讨论的内容"
+    },
+    {
+      "name": "weldone-animation",
+      "source": "./weldone-animation",
+      "description": "用 Weldone.Cli gen-ls 在 headless 环境复现 PF+粗定位→路径规划→生成 Fanuc LS 全链路，脱离 GUI 验证规划结果与外部轴行程"
+    },
+    {
+      "name": "add-diag-instrumentation",
+      "source": "./add-diag-instrumentation",
+      "description": "为 .NET 代码添加 EventSource 结构化诊断事件源 + dotnet-monitor 崩溃自动 dump，运行时动态开启、零开销、无需发版"
+    },
+    {
+      "name": "read-diag-captures",
+      "source": "./read-diag-captures",
+      "description": "读取并解读 Weldone .NET 动态诊断采集产物（nettrace/dmp/csv/speedscope），把 EventID 翻译成事件名与参数含义"
+    },
+    {
+      "name": "weldone-project-logs",
+      "source": "./weldone-project-logs",
+      "description": "读取 Weldone 项目运行日志（Serilog）与设备/规划配置 JSON 辅助排障，基于 %APPDATA% 动态定位当前激活项目"
     }
   ]
 }

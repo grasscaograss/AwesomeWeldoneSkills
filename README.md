@@ -155,6 +155,10 @@ Marketplace 注册后会自动缓存仓库内容。更新到最新版本：
 | [weldone-db-migration](weldone-db-migration/) | Weldone 数据库迁移守护：EF Core migration 检查、update-db 优先、migrate 前备份 |
 | [robimweld-release-check](robimweld-release-check/) | RobimWeld 版本、tag 与 NuGet feed 发布一致性校验 |
 | [robimweld-source-debug](robimweld-source-debug/) | RobimWeld 源码调试模式切换与构建验证 |
+| [weldone-animation](weldone-animation/) | 用 Weldone.Cli gen-ls 在 headless 环境复现 PF+粗定位→路径规划→生成 Fanuc LS 全链路，脱离 GUI 验证规划结果与外部轴行程 |
+| [add-diag-instrumentation](add-diag-instrumentation/) | 为 .NET 代码添加 EventSource 结构化诊断事件源 + dotnet-monitor 崩溃自动 dump，运行时动态开启、零开销、无需发版 |
+| [read-diag-captures](read-diag-captures/) | 读取并解读 Weldone .NET 动态诊断采集产物（nettrace/dmp/csv/speedscope），把 EventID 翻译成事件名与参数含义 |
+| [weldone-project-logs](weldone-project-logs/) | 读取 Weldone 项目运行日志（Serilog）与设备/规划配置 JSON 辅助排障，基于 %APPDATA% 动态定位当前激活项目 |
 
 ### Git & GitLab
 

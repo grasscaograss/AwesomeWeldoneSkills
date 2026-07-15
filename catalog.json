@@ -229,6 +229,13 @@
       "author": "weldone-team"
     },
     {
+      "name": "weldone-animation",
+      "description": "用 Weldone.Cli gen-ls 在 headless 环境复现 PF+粗定位→路径规划→生成 Fanuc LS 全链路，脱离 GUI 验证规划结果与外部轴行程",
+      "category": "development-workflow",
+      "version": "1.0.0",
+      "author": "weldone-team"
+    },
+    {
       "name": "world-to-robot",
       "description": "世界坐标到机器人坐标的正向变换",
       "category": "robotics",

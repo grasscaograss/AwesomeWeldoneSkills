@@ -231,11 +231,6 @@
       "description": "测试驱动开发：红-绿-重构循环，垂直切片 tracer bullet 工作流"
     },
     {
-      "name": "to-prd",
-      "source": "./to-prd",
-      "description": "从当前会话上下文生成 PRD 并发布到项目 issue tracker"
-    },
-    {
       "name": "ask-matt",
       "source": "./ask-matt",
       "description": "路由器：询问当前场景适合哪种 skill 或流程"
@@ -253,22 +248,17 @@
     {
       "name": "grilling",
       "source": "./grilling",
-      "description": "计划/设计压力测试追问，匹配 grill 触发词"
+      "description": "对计划/决策/想法的 relentless 追问，匹配 grill 触发词"
     },
     {
       "name": "implement",
       "source": "./implement",
-      "description": "基于 PRD 或一组 issue 实现一项工作"
+      "description": "基于 spec 或一组 ticket 实现一项工作"
     },
     {
       "name": "teach",
       "source": "./teach",
       "description": "在工作区内向用户教授新技能或概念"
-    },
-    {
-      "name": "to-issues",
-      "source": "./to-issues",
-      "description": "将计划/spec/PRD 拆解为可独立认领的 issue（垂直切片 tracer bullet）"
     },
     {
       "name": "triage",
@@ -281,9 +271,39 @@
       "description": "skill 写作参考：让 skill 可预测的词汇与原则"
     },
     {
+      "name": "wayfinder",
+      "source": "./wayfinder",
+      "description": "把超大块工作规划成 issue tracker 上一张共享的决策 ticket 地图，逐个解决直到路径清晰"
+    },
+    {
+      "name": "code-review",
+      "source": "./code-review",
+      "description": "两轴审查自固定点以来的改动：Standards（编码规范 + Fowler 代码异味基线）与 Spec（是否忠实实现 issue/PRD），并行子 agent 执行"
+    },
+    {
+      "name": "research",
+      "source": "./research",
+      "description": "后台 agent 调研：对照一手原始资料，产出带引用的 Markdown 文件"
+    },
+    {
+      "name": "resolving-merge-conflicts",
+      "source": "./resolving-merge-conflicts",
+      "description": "解决进行中的 git merge/rebase 冲突：理解双方意图、逐块合并、跑检查、完成合并"
+    },
+    {
       "name": "superpowers",
       "source": "./superpowers",
       "description": "完整的 agent 开发方法论技能集：头脑风暴→计划→TDD→调试→审查→交付，共 14 个模块"
+    },
+    {
+      "name": "to-tickets",
+      "source": "./to-tickets",
+      "description": "将计划/spec/当前对话拆成一组 tracer-bullet ticket，各自声明 blocking edges，发布到配置的 tracker"
+    },
+    {
+      "name": "to-spec",
+      "source": "./to-spec",
+      "description": "把当前对话综合成一份 spec 并发布到项目 issue tracker——不做访谈，只提炼已讨论的内容"
     }
   ]
 }

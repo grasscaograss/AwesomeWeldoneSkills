@@ -1,29 +1,35 @@
 ---
 name: knowledge-reorg
-description: 知识库领域级重组工具。支持健康检查（inspect）、领域合并/拆分/移动/合并碎片（merge/split/move/consolidate），agent 驱动文件归属判定与合并策略，所有操作后自动同步 INDEX.md 与交叉引用。当用户说"重组知识库"、"整理 knowledge"、"合并领域"、"拆分领域"时触发。
+description: 知识库领域级重组工具。支持健康检查（inspect）、上下文/领域级合并/拆分/移动/合并碎片（merge/split/move/consolidate）、以及从扁平结构自动迁移到多上下文 A1 结构（migrate-to-contexts）。所有操作后自动同步 INDEX.md 与交叉引用。当用户说"重组知识库"、"整理 knowledge"、"合并领域"、"拆分领域"、"迁移到多上下文"时触发。
 ---
 
 # Knowledge Reorg
 
-知识库位于 `archive/knowledge/`，按领域组织目录。本技能提供领域级结构操作与健康检查。
+知识库按**多上下文**组织：`archive/contexts/<ctx>/knowledge/<domain>/`，词汇表每上下文一份 `archive/contexts/<ctx>/CONTEXT.md`，索引在 `archive/CONTEXT-MAP.md`。本技能提供结构操作、健康检查，以及从扁平结构到多上下文的自动迁移。
 
 ## 知识库结构
 
 ```
-archive/knowledge/
-├── dual-arm/          ← 双臂系统
-├── weld-template/     ← 焊接模板
-├── weld-seam/         ← 焊缝规划
-├── coarse-positioning/ ← 粗定位
-├── scanning/          ← 精定位与扫描
-├── capacity/          ← 产能统计
-├── weld-tracking/     ← 焊接跟踪
-├── coordinate/        ← 坐标与矩阵
-├── workflow/          ← 状态机与工作流
-├── frontend/          ← 前端界面
-├── device-robot/      ← 设备与机器人
-└── tools/             ← 工具与其他
+archive/
+├── CONTEXT-MAP.md                 ← 上下文索引 + 共享内核 + 关系
+├── contexts/
+│   └── <context-slug>/            ← 如 weld-core
+│       ├── CONTEXT.md             ← 该上下文术语表
+│       └── knowledge/
+│           └── <domain-slug>/     ← 子领域知识文件
+├── records/                       ← 会话记录（跨上下文）
+├── reviews/                       ← 周期回顾
+└── INDEX.md                       ← 全局索引
 ```
+
+规范的 4 个上下文与子领域（详见 `archive/CONTEXT-MAP.md`）：
+
+| 上下文 | 共享内核 | 子领域 |
+|---|---|---|
+| `weld-core` | `WeldSeam`/`WSG` | weld-seam、wsg-merge、transition-line、weld-template、dual-arm |
+| `robotics` | `Calculator`/坐标 | coordinate、coarse-positioning |
+| `orchestration` | `Executor`/状态 | workflow、scanning |
+| `peripheral` | （弱） | frontend、device-robot、capacity、weld-tracking、tools |
 
 ## 知识文件格式
 
@@ -46,203 +52,165 @@ metadata:
 ## 命令语法
 
 ```
-/knowledge-reorg                                    ← 无参数：执行 inspect
-/knowledge-reorg inspect                            ← 健康检查
-/knowledge-reorg merge <domain-a> into <domain-b>   ← 合并两个领域
-/knowledge-reorg split <domain> → <new-a>, <new-b>  ← 拆分领域（agent 驱动）
-/knowledge-reorg move <file> to <domain>            ← 跨领域移动文件
-/knowledge-reorg consolidate <domain>               ← 合并碎片文件（agent 驱动）
+/knowledge-reorg                                              ← 无参数：执行 inspect
+/knowledge-reorg inspect                                      ← 健康检查
+/knowledge-reorg migrate-to-contexts [--dry-run] [--map ...]  ← 扁平→多上下文自动迁移
+/knowledge-reorg merge <ctx-a> into <ctx-b>                   ← 合并两个上下文
+/knowledge-reorg split <ctx> → <new-a>, <new-b>               ← 拆分上下文（agent 驱动）
+/knowledge-reorg move <file> to <ctx>/<domain>                ← 跨上下文移动文件
+/knowledge-reorg consolidate <ctx>/<domain>                   ← 合并碎片（agent 驱动）
 ```
 
-领域名对应 `archive/knowledge/` 下的目录名（如 `dual-arm`、`weld-seam`）。文件名不含扩展名（如 `strategy`、`arc-timing`）。
+上下文名（如 `weld-core`）对应 `archive/contexts/` 下的目录；子领域名（如 `weld-seam`）对应其 `knowledge/` 下的目录。文件名不含扩展名。
+
+---
+
+## migrate-to-contexts — 扁平→多上下文自动迁移
+
+把旧的扁平结构 `archive/knowledge/<domain>/` 一次性迁移到 A1 多上下文结构 `archive/contexts/<ctx>/knowledge/<domain>/`。
+
+**推荐用脚本执行机械搬运**（幂等、可回退）：
+
+```bash
+python knowledge-reorg/scripts/migrate_to_contexts.py \
+  --map weld-core:weld-seam,wsg-merge,transition-line,weld-template,dual-arm \
+  --map robotics:coordinate,coarse-positioning \
+  --map orchestration:workflow,scanning \
+  --map peripheral:frontend,device-robot,capacity,weld-tracking,tools \
+  --legacy-context --dry-run    # 先 dry-run 看计划
+```
+
+去掉 `--dry-run` 执行。脚本做的事：
+
+1. **检测**：`archive/contexts/` 已有内容时报错中止（避免误操作）
+2. **移动**：`archive/knowledge/<domain>/` → `archive/contexts/<ctx>/knowledge/<domain>/`（git 仓库内用 `git mv`，便于回退）
+3. **占位**：每个上下文生成空 `CONTEXT.md` 占位
+4. **骨架**：生成 `archive/CONTEXT-MAP.md`（上下文列表；共享内核/关系留空待填）
+5. **改名**：`--legacy-context` 时把扁平 `archive/CONTEXT.md` 改名为 `CONTEXT.md.legacy`（**不自动拆分**术语，留给 `/domain-modeling`）
+6. **重写路径**：所有 `.md` 里的 `archive/knowledge/<domain>/` 与 `knowledge/<domain>/` 引用 → 新路径
+
+**脚本不做的判断性工作**（迁移后由人/agent 完成）：
+- 把 `CONTEXT.md.legacy` 的术语拆进各上下文 `CONTEXT.md`（用 `/domain-modeling`）
+- 填充 `CONTEXT-MAP.md` 的共享内核与上下文关系
+- `[[name]]` 形式的 wikilink（按 frontmatter `name` 匹配，目标文件移动后 `name` 不变则无需改）
+
+> 若 `--map` 未覆盖所有现有领域，脚本会列出"未归类"领域并跳过它们，需补全 `--map` 后重跑。
 
 ---
 
 ## inspect — 健康检查
 
-扫描所有领域文件夹，逐项报告以下指标：
+扫描所有上下文与子领域，逐项报告：
 
 | 检查项 | 条件 | 级别 | 建议 |
 |--------|------|------|------|
-| 领域膨胀 | 文件数 > 10 | ⚠️ 警告 | 建议拆分为子领域 |
-| 孤立领域 | 文件数 = 1 | ⚠️ 警告 | 建议合并到语义最接近的领域 |
+| 上下文膨胀 | 一个上下文下子领域 > 7 或文件 > 10 | ⚠️ 警告 | 建议拆分上下文 |
+| 孤立上下文 | 子领域 = 0 或文件 = 1 | ⚠️ 警告 | 建议合并到相邻上下文 |
 | 交叉引用断链 | `[[name]]` 指向不存在的文件 | 🔴 错误 | 报告断链位置与目标名 |
-| 缺少 frontmatter | 文件不以 `---` 开头或缺少 `name`/`description`/`metadata.type` | 🔴 错误 | 报告缺失字段 |
-| 重复 name | 两个文件的 frontmatter `name` 相同 | 🔴 错误 | 报告冲突文件 |
+| 缺少 frontmatter | 文件不以 `---` 开头或缺 `name`/`description`/`metadata.type` | 🔴 错误 | 报告缺失字段 |
+| 重复 name | 两个文件 frontmatter `name` 相同 | 🔴 错误 | 报告冲突文件 |
+| 扁平残留 | `archive/knowledge/` 仍存在 | ⚠️ 警告 | 建议跑 `migrate-to-contexts` |
 
-### 输出格式
-
-以表格形式呈现每个领域的检查结果：
+输出按上下文分组：
 
 ```
-领域                文件数  警告  错误  详情
-dual-arm               5     0     0
-weld-seam              5     0     1   断链: [[nonexistent]] (planning.md L42)
-weld-tracking          1     1     0   建议: 合并到相邻领域
-workflow               7     0     0
+上下文           子领域  文件  警告  错误  详情
+weld-core            5    12    0    1   断链: [[nonexistent]] (wsg-merge/planning.md L42)
+robotics             2     4    0    0
+orchestration        2     6    0    0
+peripheral           5     3    1    0   建议: weld-tracking 文件少，考虑合并
 ```
 
-对每个问题附上具体位置（文件名 + 行号），便于定位修复。
-
-### 执行步骤
-
-1. 列出 `archive/knowledge/` 下所有子目录
-2. 遍历每个目录内的 `.md` 文件
-3. 解析 frontmatter，检查格式完整性
-4. 提取所有 `[[...]]` 交叉引用，验证目标文件是否存在
-5. 汇总为报告，按领域分组展示
+执行步骤：列 `archive/contexts/` 下所有目录 → 遍历每个 `knowledge/<domain>/*.md` → 解析 frontmatter → 提取 `[[...]]` 验证目标存在 → 汇总报告。
 
 ---
 
-## merge — 合并两个领域
+## merge — 合并两个上下文
 
-将 `<domain-a>` 的全部文件移入 `<domain-b>`，更新所有交叉引用和索引。
-
-### 语法
+将 `<ctx-a>` 的全部内容移入 `<ctx-b>`，更新交叉引用和索引。
 
 ```
-/knowledge-reorg merge weld-tracking into coordinate
+/knowledge-reorg merge peripheral into weld-core
 ```
 
-### 执行步骤
-
-1. **验证**：确认 `archive/knowledge/<domain-a>/` 和 `archive/knowledge/<domain-b>/` 均存在
-2. **移动文件**：将 `<domain-a>/` 下所有 `.md` 文件移到 `<domain-b>/`
-3. **更新交叉引用**：搜索 `archive/` 下所有 `.md` 文件，将引用路径从旧领域更新为新领域
-   - 在 INDEX.md 中更新路径：`knowledge/<domain-a>/<file>` → `knowledge/<domain-b>/<file>`
-   - 在其他知识文件中更新 `[[name]]` 引用（如果 name 不变则无需更新）
-4. **清理**：删除空的 `<domain-a>/` 目录
-5. **同步索引**：重写 `archive/INDEX.md` 的 Knowledge 段落，反映新路径
-
-### 冲突处理
-
-如果 `<domain-b>` 中已存在同名 `.md` 文件，停止并报告冲突，让用户决定如何处理（跳过/重命名/合并内容）。
-
----
-
-## split — 拆分领域（agent 驱动）
-
-将一个领域拆分为两个或多个子领域。agent 根据文件内容的语义相关性判定每个文件的归属。
-
-### 语法
-
-```
-/knowledge-reorg split workflow → fsm, production
-```
-
-### 执行步骤
-
-1. **验证**：确认源领域存在，目标领域不存在（避免覆盖）
-2. **读取文件**：读取源领域下所有 `.md` 文件的完整内容
-3. **Agent 判定归属**（spawn agent 执行）：
-   - 分析每个文件的 `description`、标题和核心内容
-   - 根据用户指定的分类依据（命令参数）或语义相似度，为每个文件分配到目标子领域
-   - 输出一份归属表供用户确认：
-     ```
-     文件名              → 目标领域    理由
-     state-machine.md   → fsm        状态机核心定义
-     persistence.md     → fsm        崩溃恢复属于状态机范畴
-     production.md      → production 生产渲染逻辑
-     cache.md           → production 缓存与生产数据绑定
-     ```
-4. **用户确认**：展示归属表，等待用户确认或调整
-5. **执行移动**：按归属表移动文件到对应子目录
-6. **更新交叉引用**：同 merge 步骤 3
-7. **创建目录**：创建新的子领域目录（如果尚不存在）
-8. **删除源目录**：仅当源目录为空时删除
-9. **同步索引**：重写 `archive/INDEX.md`
-
----
-
-## move — 跨领域移动文件
-
-将单个文件从一个领域移到另一个领域。
-
-### 语法
-
-```
-/knowledge-reorg move cache to scanning
-```
-
-### 执行步骤
-
-1. **定位文件**：在 `archive/knowledge/` 下搜索 `<file>` 对应的 `.md` 文件（按 frontmatter `name` 匹配）
-2. **验证目标**：确认目标领域目录存在
-3. **检查冲突**：目标目录下是否已存在同名文件
-4. **移动文件**
-5. **更新交叉引用**：更新 INDEX.md 中的路径
+1. **验证**：确认两个上下文目录存在
+2. **移动**：`contexts/<ctx-a>/knowledge/<domain>/` → `contexts/<ctx-b>/knowledge/<domain>/`（用 `git mv`）
+3. **合并 CONTEXT.md**：`<ctx-a>/CONTEXT.md` 的术语并入 `<ctx-b>/CONTEXT.md`（agent 判断去重）
+4. **更新交叉引用**：`contexts/<ctx-a>/` → `contexts/<ctx-b>/`（INDEX.md 与所有 `[[...]]`、路径引用）
+5. **清理**：删除空的 `<ctx-a>/` 目录，从 `CONTEXT-MAP.md` 移除该上下文条目
 6. **同步索引**
+
+冲突：目标上下文已有同名 domain 文件夹时停止，让用户决定（跳过/重命名/合并内容）。
+
+---
+
+## split — 拆分上下文（agent 驱动）
+
+将一个上下文拆为多个。agent 根据文件语义相关性判定每个子领域/文件的归属。
+
+```
+/knowledge-reorg split weld-core → weld-seam-core, dual-arm-coord
+```
+
+1. 读取源上下文下所有 `.md`
+2. Agent 按语义（`description`、标题、核心内容）为每个子领域分配目标上下文
+3. 展示归属表，等用户确认
+4. 移动子领域目录，拆分 `CONTEXT.md`（每个新上下文各取相关术语）
+5. 更新 `CONTEXT-MAP.md`、交叉引用、INDEX
+
+---
+
+## move — 跨上下文移动文件
+
+```
+/knowledge-reorg move cache to orchestration/scanning
+```
+
+按 frontmatter `name` 定位文件 → 验证目标上下文/领域存在 → 检查冲突 → `git mv` → 更新 INDEX 路径。
 
 ---
 
 ## consolidate — 合并碎片（agent 驱动）
 
-当一个领域内文件过于碎片化（内容少、主题重叠）时，由 agent 判断哪些文件应该合并。
-
-### 语法
+上下文内某子领域文件过于碎片时，由 agent 判断合并。
 
 ```
-/knowledge-reorg consolidate device-robot
+/knowledge-reorg consolidate peripheral/tools
 ```
 
-### 执行步骤
-
-1. **读取领域**：读取目标领域下所有 `.md` 文件的完整内容
-2. **Agent 分析**（spawn agent 执行）：
-   - 评估每个文件的长度和内容密度
-   - 识别主题重叠的文件组
-   - 提出合并方案：
-     ```
-     建议合并：
-     - robot-ops.md + fanuc.md → robot-ops.md
-       理由: fanuc 是 robot-ops 的具体实现子集，合并后更连贯
-     保留不动：
-     - config.md（独立主题，内容充分）
-     - calculator.md（独立主题，内容充分）
-     ```
-   - 为每个合并组生成合并后的完整内容草稿
-3. **用户确认**：展示合并方案和草稿，等待用户确认
-4. **执行合并**：用合并后的内容替换目标文件，删除被合并的源文件
-5. **更新交叉引用**：被删除文件的 `[[name]]` 引用改为指向合并后的文件
-6. **同步索引**
+读取目标子领域所有文件 → agent 识别主题重叠组 → 提出合并方案并生成草稿 → 用户确认 → 替换目标文件、删除被合并源文件 → 更新 `[[name]]` 引用与 INDEX。
 
 ---
 
 ## 索引同步规则
 
-所有结构操作完成后，必须执行以下同步步骤：
+所有结构操作完成后：
 
 ### 1. 更新 `archive/INDEX.md`
+重扫 `archive/contexts/` 下所有上下文与子领域，重写 Knowledge 段（Records/Reviews 段不动）：
 
-- 重新扫描 `archive/knowledge/` 下所有目录和文件
-- 重写 Knowledge 段落（保持 Records、ADR 等其他段落不变）
-- 格式与现有 INDEX.md 一致：
-  ```markdown
-  ### <domain>/ — <中文名>（N 文件）
-  - [name](knowledge/domain/name.md) — description
-  ```
-- 按领域拼音字母排序
+```markdown
+### <ctx>/ — <中文名>（N 子领域）
+#### <domain>/
+- [name](contexts/<ctx>/knowledge/<domain>/name.md) — description
+```
 
-### 2. 更新文件内交叉引用
+### 2. 更新 `archive/CONTEXT-MAP.md`
+上下文增删/改名后，同步 Contexts 列表；共享内核与关系段由 `/domain-modeling` 维护，本技能不自动推断。
 
-- 搜索所有 `archive/knowledge/` 下的 `.md` 文件
-- 找到所有 `[[name]]` 格式的引用
-- 如果引用的目标文件已被移动/重命名/删除：
-  - 移动/重命名：更新 `[[name]]` 为新的 name（如果 name 变了）
-  - 删除（被合并）：更新 `[[name]]` 为合并后文件的 name
-  - 目标不存在：标记为断链并在输出中警告
+### 3. 更新文件内交叉引用
+- `[[name]]` wikilink：目标文件移动后 `name` 不变则无需改；被合并则指向合并后文件的 `name`
+- 路径引用（`contexts/<old>/...`）：更新为新路径
 
-### 3. 不破坏的内容
-
-- `archive/records/` 下的记录文件 — 不触碰
-- `archive/adr/` 下的架构决策 — 不触碰
-- 文件内部的标题、正文内容 — 只在 consolidate 操作时由 agent 修改
+### 4. 不破坏的内容
+- `archive/records/`、`archive/reviews/` — 不触碰
+- 文件内部正文 — 只在 consolidate 时由 agent 修改
 
 ---
 
 ## 通用约束
 
-- **先确认后执行**：所有写操作（merge/split/move/consolidate）在展示计划后等待用户确认，除非用户使用 `--force` 标记
-- **原子性**：如果一个操作的中间步骤失败，报告已完成的步骤和失败点，由用户决定回滚或继续
-- **备份意识**：操作前提醒用户 `archive/` 已在 git 版本控制下，如需回退可用 `git checkout`
-- **不创建新知识**：本技能只做结构重组，不生成新的知识内容（consolidate 的合并除外，但也是聚合现有内容）
+- **先确认后执行**：所有写操作展示计划后等用户确认，除非 `--force`
+- **原子性**：中间步骤失败时报告已完成步骤与失败点，由用户决定回滚或继续
+- **备份意识**：`archive/` 在 git 版控下，`git mv` + `git checkout` 可回退
+- **不创建新知识**：本技能只做结构重组，不生成新知识内容（consolidate 合并除外）

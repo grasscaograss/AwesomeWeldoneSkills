@@ -1,6 +1,6 @@
 ---
 name: periodic-review
-description: Generate monthly or yearly project review summaries with domain-aware knowledge evolution tracking. Collects from archive/records/, git log, archive/knowledge/ (grouped by domain), and archive/adr/ for the given period. Use when user says "monthly review", "yearly summary", "quarterly review", calls /periodic-review, or mentions "总结", "回顾", "月报", "年报".
+description: Generate monthly or yearly project review summaries with context-aware knowledge evolution tracking. Collects from archive/records/, git log, archive/contexts/*/knowledge/ (grouped by context then domain), and docs/adr/ for the given period. Use when user says "monthly review", "yearly summary", "quarterly review", calls /periodic-review, or mentions "总结", "回顾", "月报", "年报".
 ---
 
 # Periodic Review
@@ -29,30 +29,22 @@ Run these collections simultaneously:
 |--------|--------|---------|
 | Records | List files under `archive/records/` with date within range | 设计决策和实现记录 |
 | Git log | `git log --after=<start> --before=<end> --oneline --stat` | 变更统计 |
-| Knowledge | List files under `archive/knowledge/` modified in range, grouped by subdirectory | 领域知识演进 |
+| Knowledge | List files under `archive/contexts/*/knowledge/` modified in range, grouped by context then sub-domain | 领域知识演进 |
 | ADRs | Files under `archive/adr/` or `docs/adr/` created or modified in range | 架构决策 |
 
 ### 3. Domain-grouped knowledge collection
 
-Knowledge 目录按领域子文件夹组织。统计每个领域的变化情况：
+Knowledge 按上下文→子领域嵌套组织（`archive/contexts/<ctx>/knowledge/<domain>/`）。统计每个上下文及其子领域的变化：
 
 ```
-archive/knowledge/
-├── dual-arm/           双臂系统
-├── weld-template/      焊接模板
-├── weld-seam/          焊缝规划
-├── coarse-positioning/ 粗定位
-├── scanning/           精定位与扫描
-├── capacity/           产能统计
-├── weld-tracking/      焊接跟踪
-├── coordinate/         坐标与矩阵
-├── workflow/           状态机与工作流
-├── frontend/           前端界面
-├── device-robot/       设备与机器人
-└── tools/              工具与其他
+archive/contexts/
+├── weld-core/knowledge/       weld-seam  wsg-merge  transition-line  weld-template  dual-arm
+├── robotics/knowledge/        coordinate  coarse-positioning
+├── orchestration/knowledge/   workflow  scanning
+└── peripheral/knowledge/      frontend  device-robot  capacity  weld-tracking  tools
 ```
 
-对每个领域子文件夹，收集以下信息：
+对每个上下文及其子领域，收集以下信息：
 
 1. **当前文件数** — 列出目录下所有 `.md` 文件
 2. **期内的变化** — 通过 `git log --diff-filter=ACDMR -- <path>` 获取新增(A)、修改(M)、删除(D)、重命名(R)的文件
@@ -78,7 +70,7 @@ archive/knowledge/
 **Prompt 模板：**
 
 ```
-分析 archive/knowledge/<domain>/ 目录下近期（<period>）的变化趋势。
+分析 `archive/contexts/<ctx>/knowledge/<domain>/` 目录下近期（<period>）的变化趋势。
 
 读取该目录下所有文件的 TL;DR，结合 archive/records/ 中与该领域相关的记录。
 
@@ -92,7 +84,7 @@ archive/knowledge/
 如果任意领域文件数 > 15，或变化 ≥ 5 个文件，在 Open items 中添加建议：
 
 ```
-⚠️ <domain>/ 文件数达到 N，增长过快。建议执行 /knowledge-reorg 检查是否需要拆分。
+⚠️ <ctx>/<domain>/ 文件数达到 N，增长过快。建议执行 /knowledge-reorg 检查是否需要拆分。
 ```
 
 ### 6. Generate review document
@@ -116,7 +108,7 @@ Structure:
 <Summary from records + git log. Group by theme/topic.
 保留 commit 统计摘要（文件数、增删行数）。>
 
-## Knowledge evolution by domain
+## Knowledge evolution by context
 
 ### <domain>/（+N 文件）
 - 新增 <filename>.md — <TL;DR 摘要>
